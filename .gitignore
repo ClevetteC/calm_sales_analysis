@@ -1,0 +1,21 @@
+# Environment variables (never commit API keys)
+.env
+
+# Dependencies
+node_modules/
+
+# Upload temp files
+uploads/
+_ul
+_ul-*
+
+# Logs
+*.log
+server.log
+
+# Claude Code local settings
+.claude/
+
+# OS files
+.DS_Store
+Thumbs.db
