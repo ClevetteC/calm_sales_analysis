@@ -295,6 +295,8 @@ The following fields are MANDATORY in every response. Do NOT omit them:
 2. dealHealth - ALWAYS include with status (healthy|at-risk|critical), score (1-10), and riskFactors
 3. buyingSignals - ALWAYS include with detected signals, strength, and count
 4. overallGrade - ALWAYS include (A|B|C|D|F)
+5. proposalBuilder - ALWAYS include with painQuotes, desireQuotes, coreProblemStatement, desiredOutcome, proposalHook, proposalFramework, offerPositioning, proposalCTA
+6. followUpEmail - ALWAYS include with subjectLineOptions and emailBody
 
 If you cannot determine exact values, make your best estimate based on available information.
 NEVER return these fields as null, undefined, or empty. Always provide a complete analysis.
@@ -334,6 +336,29 @@ OUTPUT FORMAT (respond with this exact JSON structure):
     "prospectMode": "story|solution",
     "enrollmentSignals": "Any self-closing language observed",
     "commitmentLevel": "low|medium|high based on language patterns (try vs will)"
+  },
+  "proposalBuilder": {
+    "painQuotes": ["Exact verbatim quote 1 from prospect about their problem", "Exact verbatim quote 2", "Exact verbatim quote 3"],
+    "desireQuotes": ["Exact verbatim quote 1 from prospect about what they want", "Exact verbatim quote 2", "Exact verbatim quote 3"],
+    "coreProblemStatement": "You're [one-sentence synthesis in their language — no jargon]",
+    "desiredOutcome": "One sentence in their words describing what they want",
+    "proposalHook": "The single most compelling thing they said — use as the opening line of the proposal",
+    "proposalFramework": {
+      "problem": "The problem section written in their words",
+      "gap": "The cost of staying — quantified where possible",
+      "solution": "How the offer maps to their stated goals in their language"
+    },
+    "offerPositioning": "Lead with X, de-emphasize Y — based specifically on what they said",
+    "proposalCTA": "The exact closing ask that feels like a natural continuation of this conversation"
+  },
+  "followUpEmail": {
+    "subjectLineOptions": [
+      { "subject": "Subject line option A", "angle": "curiosity|urgency|value|personal" },
+      { "subject": "Subject line option B", "angle": "curiosity|urgency|value|personal" }
+    ],
+    "emailBody": "Full ready-to-send email body referencing at least 2 specifics from the call. Use [Prospect Name]. End with one clear CTA.",
+    "sendTiming": "When to send and why",
+    "noReplyFollowUp": "What to do if no reply within 3 business days"
   },
   "spinAnalysis": {
     "situationQuestions": { "count": 0, "quality": "weak|average|strong", "examples": ["example1"] },
@@ -535,29 +560,6 @@ OUTPUT FORMAT (respond with this exact JSON structure):
       "responseScript": "Exact words to say if they do raise it"
     }
   ],
-  "followUpEmail": {
-    "subjectLineOptions": [
-      { "subject": "Subject line option A", "angle": "curiosity|urgency|value|personal" },
-      { "subject": "Subject line option B", "angle": "curiosity|urgency|value|personal" }
-    ],
-    "emailBody": "Full ready-to-send email body. Use [Prospect Name] as placeholder. Reference at least 2 specifics from the call. End with a single clear CTA.",
-    "sendTiming": "When exactly to send this email and why",
-    "noReplyFollowUp": "Exact action/message to send if no reply within 3 business days"
-  },
-  "proposalBuilder": {
-    "painQuotes": ["Exact quote 1 from prospect about their problem", "Exact quote 2"],
-    "desireQuotes": ["Exact quote 1 from prospect about what they want", "Exact quote 2"],
-    "coreProblemStatement": "You're [one-sentence synthesis using their language]",
-    "desiredOutcome": "One sentence synthesizing their stated desired outcome in their words",
-    "proposalHook": "The single most compelling thing they said — the opening line of the proposal",
-    "proposalFramework": {
-      "problem": "The problem section written in their words",
-      "gap": "The gap between current state and desired state — quantified where possible",
-      "solution": "How the offer maps to their stated goals — in their language"
-    },
-    "offerPositioning": "Which features/outcomes to lead with and which to de-emphasize based on what they said",
-    "proposalCTA": "The exact closing ask — what to ask them to do next"
-  },
   "executiveSummary": "3-4 sentences: Buyer stage detected (TOFU/MOFU/BOFU), which decision point failed, seller approach match, and the #1 recovery action needed."
 }
 

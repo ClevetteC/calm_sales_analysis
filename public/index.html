@@ -2481,6 +2481,79 @@
       line-height: 1.4;
     }
 
+    /* ===== SECTION TABS ===== */
+    .section-tabs {
+      display: flex;
+      gap: 4px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 4px;
+      margin-bottom: 24px;
+    }
+
+    .section-tab {
+      flex: 1;
+      padding: 10px 16px;
+      border: none;
+      background: none;
+      border-radius: 8px;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      font-family: inherit;
+      text-align: center;
+    }
+
+    .section-tab:hover { color: var(--text-primary); }
+
+    .section-tab.active {
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .section-tab-badge {
+      display: inline-block;
+      background: var(--accent-primary);
+      color: #000;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 100px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* Executive Summary Banner */
+    .exec-summary-banner {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      display: none;
+    }
+
+    .exec-summary-banner.visible { display: block; }
+
+    .exec-summary-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
     /* ===== PROPOSAL BUILDER ===== */
     .proposal-builder-section {
       background: var(--bg-card);
@@ -3705,9 +3778,30 @@ Include speaker labels for best results." rows="10"></textarea>
           <div class="priority-list" id="priorityList"></div>
         </div>
 
+        <!-- Executive Summary -->
+        <div class="exec-summary-banner" id="execSummaryBanner">
+          <div class="exec-summary-label">Executive Summary</div>
+          <div id="execSummaryText"></div>
+        </div>
+
+        <!-- Section Tabs -->
+        <div class="section-tabs" id="sectionTabs" style="display:none;">
+          <button class="section-tab active" onclick="switchTab('action', this)">
+            Take Action <span class="section-tab-badge" id="tabBadgeAction">3</span>
+          </button>
+          <button class="section-tab" onclick="switchTab('intel', this)">
+            Prospect Intel
+          </button>
+          <button class="section-tab" onclick="switchTab('coaching', this)">
+            Coaching Review
+          </button>
+        </div>
+
         <!-- Detailed Sections -->
         <div id="detailedSections">
-          <!-- Will be populated dynamically -->
+          <div class="tab-panel active" id="tab-action"></div>
+          <div class="tab-panel" id="tab-intel"></div>
+          <div class="tab-panel" id="tab-coaching"></div>
         </div>
       </div>
     </main>
@@ -4425,7 +4519,11 @@ Include speaker labels for best results." rows="10"></textarea>
         document.getElementById('closingProbBar').innerHTML = '';
         document.getElementById('resultDealHealth').innerHTML = '<span class="deal-health-badge">-</span>';
         document.getElementById('priorityList').innerHTML = `<div style="padding: 20px; background: var(--bg-secondary); border-radius: 10px; white-space: pre-wrap;">${escapeHtml(analysis.rawText)}</div>`;
-        document.getElementById('detailedSections').innerHTML = '';
+        document.getElementById('tab-action').innerHTML = '';
+        document.getElementById('tab-intel').innerHTML = '';
+        document.getElementById('tab-coaching').innerHTML = '';
+        document.getElementById('sectionTabs').style.display = 'none';
+        document.getElementById('execSummaryBanner').classList.remove('visible');
         return;
       }
 
@@ -4621,52 +4719,55 @@ Include speaker labels for best results." rows="10"></textarea>
     }
 
     function renderDetailedSections(analysis) {
-      const container = document.getElementById('detailedSections');
-      let html = '';
+      // Executive Summary
+      const summaryBanner = document.getElementById('execSummaryBanner');
+      const summaryText = document.getElementById('execSummaryText');
+      if (analysis.executiveSummary) {
+        summaryText.textContent = analysis.executiveSummary;
+        summaryBanner.classList.add('visible');
+      } else {
+        summaryBanner.classList.remove('visible');
+      }
 
-      // Proposal Builder — first, drives the sale forward
+      // Show tabs
+      document.getElementById('sectionTabs').style.display = 'flex';
+
+      // ── TAB 1: TAKE ACTION ──────────────────────────────
+      let actionHtml = '';
+
       if (analysis.proposalBuilder) {
-        html += renderProposalBuilder(analysis.proposalBuilder);
+        actionHtml += renderProposalBuilder(analysis.proposalBuilder);
       }
-
-      // Follow-Up Email — pairs with proposal to advance the deal
       if (analysis.followUpEmail) {
-        html += renderFollowUpEmail(analysis.followUpEmail);
+        actionHtml += renderFollowUpEmail(analysis.followUpEmail);
       }
-
-      // Follow-Up Call Blueprint
       if (analysis.followUpCallBlueprint) {
-        html += renderFollowUpBlueprint(analysis.followUpCallBlueprint);
+        actionHtml += renderFollowUpBlueprint(analysis.followUpCallBlueprint);
+      }
+      if (!actionHtml) {
+        actionHtml = `<div class="empty-state" style="padding: 40px;"><div class="empty-state-text">No action sections returned by the analysis.</div></div>`;
       }
 
-      // Prospect Profile — communication style for next interaction
+      // Count action sections for badge
+      const actionCount = [analysis.proposalBuilder, analysis.followUpEmail, analysis.followUpCallBlueprint].filter(Boolean).length;
+      document.getElementById('tabBadgeAction').textContent = actionCount;
+
+      document.getElementById('tab-action').innerHTML = actionHtml;
+
+      // ── TAB 2: PROSPECT INTEL ───────────────────────────
+      let intelHtml = '';
+
       if (analysis.prospectProfile) {
-        html += renderProspectProfile(analysis.prospectProfile);
+        intelHtml += renderProspectProfile(analysis.prospectProfile);
       }
-
-      // Predictive Objections
       if (analysis.predictiveObjections?.length > 0) {
-        html += renderPredictiveObjections(analysis.predictiveObjections);
+        intelHtml += renderPredictiveObjections(analysis.predictiveObjections);
       }
-
-      // Unexplored Angles
       if (analysis.unexploredAngles?.length > 0) {
-        html += renderUnexploredAngles(analysis.unexploredAngles);
+        intelHtml += renderUnexploredAngles(analysis.unexploredAngles);
       }
-
-      // Question Quality (new)
-      if (analysis.questionQuality) {
-        html += renderQuestionQuality(analysis.questionQuality);
-      }
-
-      // Discovery & Gap Analysis
-      if (analysis.spinAnalysis || analysis.gapSellingAnalysis) {
-        html += renderDiscoveryGapAnalysis(analysis);
-      }
-
-      // Guided Questions for Next Call
       if (analysis.guidedQuestionsForNextCall?.length > 0) {
-        html += renderDetailSection('questions', '💬 Questions for Next Call',
+        intelHtml += renderDetailSection('questions', '💬 Questions for Next Call',
           analysis.guidedQuestionsForNextCall.map(q => ({
             main: `"${q.question}"`,
             sub: q.purpose,
@@ -4674,10 +4775,17 @@ Include speaker labels for best results." rows="10"></textarea>
           }))
         );
       }
+      if (!intelHtml) {
+        intelHtml = `<div class="empty-state" style="padding: 40px;"><div class="empty-state-text">Prospect intel not available in this analysis.</div></div>`;
+      }
 
-      // Critical Mistakes
+      document.getElementById('tab-intel').innerHTML = intelHtml;
+
+      // ── TAB 3: COACHING REVIEW ──────────────────────────
+      let coachHtml = '';
+
       if (analysis.criticalMistakes?.length > 0) {
-        html += renderDetailSection('mistakes', '⚠️ Critical Mistakes',
+        coachHtml += renderDetailSection('mistakes', '⚠️ Critical Mistakes',
           analysis.criticalMistakes.map(m => ({
             timestamp: m.timestamp,
             main: m.mistake,
@@ -4685,10 +4793,8 @@ Include speaker labels for best results." rows="10"></textarea>
           }))
         );
       }
-
-      // Missed Opportunities
       if (analysis.missedOpportunities?.length > 0) {
-        html += renderDetailSection('opportunities', '💡 Missed Opportunities',
+        coachHtml += renderDetailSection('opportunities', '💡 Missed Opportunities',
           analysis.missedOpportunities.map(m => ({
             timestamp: m.timestamp,
             main: m.opportunity,
@@ -4696,10 +4802,8 @@ Include speaker labels for best results." rows="10"></textarea>
           }))
         );
       }
-
-      // Strong Moments
       if (analysis.strongMoments?.length > 0) {
-        html += renderDetailSection('strengths', '✓ Strong Moments',
+        coachHtml += renderDetailSection('strengths', '✓ Strong Moments',
           analysis.strongMoments.map(m => ({
             timestamp: m.timestamp,
             main: m.moment,
@@ -4707,13 +4811,30 @@ Include speaker labels for best results." rows="10"></textarea>
           }))
         );
       }
-
-      // Framework Scores
+      if (analysis.questionQuality) {
+        coachHtml += renderQuestionQuality(analysis.questionQuality);
+      }
+      if (analysis.spinAnalysis || analysis.gapSellingAnalysis) {
+        coachHtml += renderDiscoveryGapAnalysis(analysis);
+      }
       if (analysisType === 'deep' || analysis.calmScorecard) {
-        html += renderFrameworkScores(analysis);
+        coachHtml += renderFrameworkScores(analysis);
+      }
+      if (!coachHtml) {
+        coachHtml = `<div class="empty-state" style="padding: 40px;"><div class="empty-state-text">No coaching data in this analysis.</div></div>`;
       }
 
-      container.innerHTML = html;
+      document.getElementById('tab-coaching').innerHTML = coachHtml;
+
+      // Start on action tab
+      switchTab('action', document.querySelector('.section-tab'));
+    }
+
+    function switchTab(name, btn) {
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.section-tab').forEach(b => b.classList.remove('active'));
+      document.getElementById(`tab-${name}`).classList.add('active');
+      if (btn) btn.classList.add('active');
     }
 
     function renderFollowUpBlueprint(blueprint) {
