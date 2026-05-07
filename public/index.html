@@ -1132,6 +1132,191 @@
       transform: scale(1.05);
     }
 
+    /* Energy Signals Card */
+    .energy-signals-card {
+      grid-column: span 2;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 24px;
+      display: none;
+    }
+
+    .energy-signals-card.visible { display: block; }
+
+    .energy-signals-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .energy-signals-title {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .energy-signals-body {
+      display: grid;
+      grid-template-columns: auto auto 1fr 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    /* Prospect Mode Pill */
+    .prospect-mode-pill {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .prospect-mode-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+    }
+
+    .prospect-mode-badge {
+      padding: 10px 20px;
+      border-radius: 100px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+    }
+
+    .prospect-mode-badge.story {
+      background: rgba(234, 179, 8, 0.15);
+      color: #eab308;
+      border: 1px solid rgba(234, 179, 8, 0.35);
+    }
+
+    .prospect-mode-badge.solution {
+      background: rgba(59, 130, 246, 0.15);
+      color: #3b82f6;
+      border: 1px solid rgba(59, 130, 246, 0.35);
+    }
+
+    .prospect-mode-hint {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-align: center;
+      max-width: 120px;
+      line-height: 1.4;
+    }
+
+    /* Commitment Level */
+    .commitment-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .commitment-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+    }
+
+    .commitment-dial {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      border: 2px solid;
+    }
+
+    .commitment-dial.high {
+      background: rgba(34, 197, 94, 0.12);
+      color: var(--success);
+      border-color: rgba(34, 197, 94, 0.4);
+    }
+
+    .commitment-dial.medium {
+      background: rgba(234, 179, 8, 0.12);
+      color: var(--warning);
+      border-color: rgba(234, 179, 8, 0.4);
+    }
+
+    .commitment-dial.low {
+      background: rgba(239, 68, 68, 0.12);
+      color: var(--error);
+      border-color: rgba(239, 68, 68, 0.4);
+    }
+
+    .commitment-hint {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    /* Enrollment Signals */
+    .energy-text-block {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .energy-text-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+
+    .enrollment-signal-text {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      font-style: italic;
+    }
+
+    .enrollment-signal-text.none {
+      font-style: normal;
+      color: var(--text-muted);
+    }
+
+    /* Observed Shifts */
+    .energy-shift-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .energy-shift-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    .energy-shift-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-primary);
+      flex-shrink: 0;
+      margin-top: 6px;
+    }
+
     /* Next Action Card */
     .next-action-card {
       background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(34, 197, 94, 0.05));
@@ -2296,6 +2481,254 @@
       line-height: 1.4;
     }
 
+    /* ===== PROPOSAL BUILDER ===== */
+    .proposal-builder-section {
+      background: var(--bg-card);
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      border-top: 3px solid var(--accent-primary);
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+
+    .proposal-builder-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .proposal-builder-header h4 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .proposal-badge {
+      font-size: 0.7rem;
+      font-weight: 600;
+      background: rgba(249, 115, 22, 0.2);
+      color: var(--accent-primary);
+      padding: 2px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .proposal-builder-content {
+      padding: 0 24px 24px;
+    }
+
+    .proposal-hook-box {
+      background: rgba(249, 115, 22, 0.08);
+      border: 1px solid rgba(249, 115, 22, 0.25);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+    }
+
+    .proposal-hook-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--accent-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      margin-bottom: 8px;
+    }
+
+    .proposal-hook-text {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1.5;
+      font-style: italic;
+    }
+
+    .proposal-two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .proposal-quotes-block {
+      background: var(--bg-elevated);
+      border-radius: 10px;
+      padding: 16px;
+    }
+
+    .proposal-quotes-block-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      margin-bottom: 12px;
+    }
+
+    .proposal-quotes-block-label.pain { color: var(--error); }
+    .proposal-quotes-block-label.desire { color: var(--success); }
+
+    .proposal-quote-item {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+      align-items: flex-start;
+    }
+
+    .proposal-quote-mark {
+      font-size: 1.5rem;
+      line-height: 1;
+      color: var(--text-muted);
+      flex-shrink: 0;
+      margin-top: -2px;
+    }
+
+    .proposal-quote-mark.pain { color: var(--error); opacity: 0.5; }
+    .proposal-quote-mark.desire { color: var(--success); opacity: 0.5; }
+
+    .proposal-quote-text {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      font-style: italic;
+    }
+
+    .proposal-framework-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .proposal-framework-step {
+      background: var(--bg-elevated);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+
+    .proposal-framework-num {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-primary);
+      margin-bottom: 6px;
+    }
+
+    .proposal-framework-title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    .proposal-framework-text {
+      font-size: 0.85rem;
+      color: var(--text-primary);
+      line-height: 1.5;
+    }
+
+    .proposal-statement-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .proposal-statement {
+      background: var(--bg-elevated);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+
+    .proposal-statement-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .proposal-statement-text {
+      font-size: 0.9rem;
+      color: var(--text-primary);
+      line-height: 1.5;
+    }
+
+    .proposal-positioning-box {
+      background: var(--bg-elevated);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 16px;
+    }
+
+    .proposal-positioning-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .proposal-positioning-text {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.55;
+    }
+
+    .proposal-cta-box {
+      background: rgba(34, 197, 94, 0.08);
+      border: 1px solid rgba(34, 197, 94, 0.2);
+      border-radius: 10px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .proposal-cta-content { flex: 1; }
+
+    .proposal-cta-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--success);
+      margin-bottom: 6px;
+    }
+
+    .proposal-cta-text {
+      font-size: 0.9rem;
+      color: var(--text-primary);
+      line-height: 1.5;
+    }
+
+    .proposal-cta-copy-btn {
+      background: none;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      color: var(--success);
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      white-space: nowrap;
+      font-family: inherit;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .proposal-cta-copy-btn:hover {
+      background: var(--success);
+      color: #000;
+    }
+
     /* ===== FOLLOW-UP EMAIL ===== */
     .email-card {
       background: var(--bg-elevated);
@@ -2663,6 +3096,164 @@
       color: #737373;
       font-style: italic;
     }
+
+    /* ===== ANALYSIS MAP ===== */
+    #analysisMapOverlay { z-index: 1001; }
+    .am-card {
+      width: 1100px;
+      max-width: 100%;
+      background: #111;
+      border-radius: 20px;
+      overflow: hidden;
+      font-family: 'DM Sans', sans-serif;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.7);
+    }
+    .am-header {
+      background: linear-gradient(135deg, #1a1a1a 0%, #242424 100%);
+      border-bottom: 2px solid #f97316;
+      padding: 18px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .am-header-left { display: flex; align-items: center; gap: 12px; }
+    .am-header-icon {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, #f97316, #fb923c);
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+    }
+    .am-header-title { font-size: 1rem; font-weight: 700; color: #fafafa; }
+    .am-header-title span { color: #f97316; }
+    .am-header-right { text-align: right; }
+    .am-call-name { font-size: 0.9rem; font-weight: 600; color: #fafafa; }
+    .am-call-date { font-size: 0.72rem; color: #737373; margin-top: 2px; }
+
+    .am-vitals {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 180px;
+      gap: 0;
+      border-bottom: 1px solid #222;
+    }
+    .am-vital {
+      padding: 16px 20px;
+      border-right: 1px solid #222;
+    }
+    .am-vital:last-child { border-right: none; }
+    .am-vital-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.09em; color: #737373; margin-bottom: 6px; }
+    .am-vital-value { font-size: 1.05rem; font-weight: 700; color: #fafafa; }
+    .am-prob-bar { height: 6px; background: #2d2d2d; border-radius: 3px; margin-top: 7px; overflow: hidden; }
+    .am-prob-fill { height: 100%; border-radius: 3px; }
+    .am-grade-vital {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .am-grade-big { font-size: 2.4rem; font-weight: 800; line-height: 1; }
+    .am-grade-meta { display: flex; flex-direction: column; }
+    .am-grade-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.08em; color: #737373; }
+    .am-grade-sub { font-size: 0.75rem; color: #a3a3a3; margin-top: 2px; }
+
+    .am-body { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+
+    .am-row { display: grid; gap: 16px; }
+    .am-row-2 { grid-template-columns: 1fr 1fr; }
+    .am-row-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+    .am-section {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .am-section-head {
+      padding: 10px 16px;
+      background: #222;
+      border-bottom: 1px solid #2a2a2a;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .am-section-title { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #a3a3a3; }
+    .am-section-badge { font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: 20px; }
+    .am-section-body { padding: 14px 16px; }
+
+    /* CALM bars */
+    .am-calm-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .am-calm-row:last-child { margin-bottom: 0; }
+    .am-calm-l { font-size: 0.9rem; font-weight: 800; color: #f97316; width: 14px; flex-shrink: 0; }
+    .am-calm-name { font-size: 0.72rem; color: #737373; width: 54px; flex-shrink: 0; }
+    .am-calm-track { flex: 1; height: 8px; background: #2d2d2d; border-radius: 4px; overflow: hidden; }
+    .am-calm-fill { height: 100%; border-radius: 4px; }
+    .am-calm-fill.high { background: linear-gradient(90deg, #22c55e, #16a34a); }
+    .am-calm-fill.medium { background: linear-gradient(90deg, #eab308, #ca8a04); }
+    .am-calm-fill.low { background: linear-gradient(90deg, #ef4444, #dc2626); }
+    .am-calm-score { font-size: 0.75rem; font-weight: 700; color: #fafafa; width: 32px; text-align: right; flex-shrink: 0; }
+
+    /* Decision points */
+    .am-dp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .am-dp-item { display: flex; align-items: center; gap: 8px; }
+    .am-dp-dot {
+      width: 24px; height: 24px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.65rem; font-weight: 700; flex-shrink: 0;
+    }
+    .am-dp-dot.passed { background: rgba(34,197,94,0.15); border: 1px solid #22c55e; color: #22c55e; }
+    .am-dp-dot.failed { background: rgba(239,68,68,0.15); border: 1px solid #ef4444; color: #ef4444; }
+    .am-dp-text { font-size: 0.72rem; color: #a3a3a3; line-height: 1.3; }
+
+    /* Issues / wins */
+    .am-list-item {
+      display: flex; align-items: flex-start; gap: 8px;
+      margin-bottom: 10px; font-size: 0.78rem; color: #d4d4d4; line-height: 1.4;
+    }
+    .am-list-item:last-child { margin-bottom: 0; }
+    .am-list-dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+    .am-list-dot.issue { background: #ef4444; }
+    .am-list-dot.win { background: #22c55e; }
+
+    /* Next steps */
+    .am-step {
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .am-step-num {
+      font-size: 1.4rem; font-weight: 800; color: #f97316; line-height: 1;
+    }
+    .am-step-text { font-size: 0.78rem; font-weight: 600; color: #fafafa; line-height: 1.3; }
+    .am-step-timing { font-size: 0.68rem; color: #f97316; }
+    .am-step-script {
+      font-size: 0.7rem; color: #a3a3a3; font-style: italic;
+      border-left: 2px solid #f97316; padding-left: 8px; margin-top: 4px; line-height: 1.4;
+    }
+
+    /* Prospect profile */
+    .am-profile-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+    .am-profile-badge {
+      background: #2d2d2d; border: 1px solid #333; border-radius: 6px;
+      padding: 4px 10px; font-size: 0.68rem; color: #a3a3a3;
+    }
+    .am-profile-badge span { color: #fafafa; font-weight: 600; }
+    .am-word-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+    .am-word-tag { background: rgba(249,115,22,0.12); border: 1px solid rgba(249,115,22,0.3); border-radius: 4px; padding: 2px 7px; font-size: 0.65rem; color: #fb923c; }
+
+    /* Objections */
+    .am-obj-item { margin-bottom: 12px; }
+    .am-obj-item:last-child { margin-bottom: 0; }
+    .am-obj-text { font-size: 0.75rem; font-weight: 600; color: #fafafa; margin-bottom: 4px; }
+    .am-obj-prob { display: inline-block; font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; padding: 1px 6px; border-radius: 10px; margin-bottom: 4px; }
+    .am-obj-prob.high { background: rgba(239,68,68,0.2); color: #ef4444; }
+    .am-obj-prob.medium { background: rgba(234,179,8,0.2); color: #eab308; }
+    .am-obj-prob.low { background: rgba(34,197,94,0.2); color: #22c55e; }
+    .am-obj-response { font-size: 0.68rem; color: #737373; font-style: italic; line-height: 1.4; }
+
+    .am-footer {
+      background: #0a0a0a;
+      border-top: 1px solid #222;
+      padding: 12px 28px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .am-footer-left { font-size: 0.7rem; color: #737373; }
+    .am-footer-left strong { color: #f97316; }
+    .am-footer-right { font-size: 0.68rem; color: #525252; font-style: italic; }
   </style>
 </head>
 <body>
@@ -2976,7 +3567,7 @@ Include speaker labels for best results." rows="10"></textarea>
             <button class="btn btn-secondary" onclick="exportResults('copy')">📋 Copy</button>
             <button class="btn btn-secondary" onclick="exportResults('doc')">📄 Export Doc</button>
             <button class="btn btn-secondary" onclick="showInfographic()">📊 Infographic</button>
-            <button class="btn btn-secondary" onclick="exportForNotebookLM()">📓 NotebookLM</button>
+            <button class="btn btn-secondary" onclick="showAnalysisMap()">🗺 Analysis Map</button>
             <button class="btn btn-secondary" onclick="showView('analyze')">+ New Analysis</button>
           </div>
         </div>
@@ -3063,6 +3654,33 @@ Include speaker labels for best results." rows="10"></textarea>
               <div class="issue-script-label">Script to Use</div>
               <div class="issue-script-text" id="issueScript">-</div>
               <button class="issue-copy-btn" onclick="copyIssueScript()">Copy</button>
+            </div>
+          </div>
+
+          <!-- Energy Signals Card -->
+          <div class="energy-signals-card" id="energySignalsCard">
+            <div class="energy-signals-header">
+              <div class="energy-signals-title">⚡ Prospect Energy</div>
+            </div>
+            <div class="energy-signals-body">
+              <div class="prospect-mode-pill">
+                <div class="prospect-mode-label">Mode</div>
+                <div class="prospect-mode-badge" id="prospectModeBadge">-</div>
+                <div class="prospect-mode-hint" id="prospectModeHint"></div>
+              </div>
+              <div class="commitment-block">
+                <div class="commitment-label">Commitment</div>
+                <div class="commitment-dial" id="commitmentDial">-</div>
+                <div class="commitment-hint" id="commitmentHint"></div>
+              </div>
+              <div class="energy-text-block">
+                <div class="energy-text-label">Self-Closing Language Heard</div>
+                <div class="enrollment-signal-text" id="enrollmentSignalText">-</div>
+              </div>
+              <div class="energy-text-block">
+                <div class="energy-text-label">Energy Shifts During Call</div>
+                <div class="energy-shift-list" id="energyShiftList"></div>
+              </div>
             </div>
           </div>
 
@@ -3161,6 +3779,123 @@ Include speaker labels for best results." rows="10"></textarea>
       <div class="ig-footer">
         <div class="ig-footer-brand">Analyzed with <strong>CallCoach Pro</strong> · CALM Method™</div>
         <div class="ig-footer-tag">Clevette Coombs Consulting</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Analysis Map Overlay -->
+  <div class="infographic-overlay" id="analysisMapOverlay" onclick="closeAnalysisMap(event)">
+    <div class="infographic-toolbar" id="analysisMapToolbar">
+      <button class="btn btn-primary" onclick="downloadAnalysisMap()">⬇ Download PNG</button>
+      <button class="btn btn-secondary" onclick="closeAnalysisMapBtn()">✕ Close</button>
+    </div>
+    <div class="am-card" id="analysisMapCard">
+
+      <div class="am-header">
+        <div class="am-header-left">
+          <div class="am-header-icon">🗺</div>
+          <div class="am-header-title">CallCoach <span>Pro</span> · Analysis Map</div>
+        </div>
+        <div class="am-header-right">
+          <div class="am-call-name" id="amCallName">Call Analysis</div>
+          <div class="am-call-date" id="amCallDate"></div>
+        </div>
+      </div>
+
+      <!-- Vitals bar -->
+      <div class="am-vitals">
+        <div class="am-vital">
+          <div class="am-vital-label">Closing Probability</div>
+          <div class="am-vital-value" id="amClosingProb">-</div>
+          <div class="am-prob-bar"><div class="am-prob-fill" id="amProbFill" style="width:0%"></div></div>
+        </div>
+        <div class="am-vital">
+          <div class="am-vital-label">Deal Health</div>
+          <div class="am-vital-value" id="amDealHealth">-</div>
+        </div>
+        <div class="am-vital">
+          <div class="am-vital-label">Buyer Stage</div>
+          <div class="am-vital-value" id="amStage">-</div>
+        </div>
+        <div class="am-vital">
+          <div class="am-vital-label">Overall Grade</div>
+          <div class="am-grade-vital">
+            <div class="am-grade-big" id="amGrade">-</div>
+            <div class="am-grade-meta">
+              <div class="am-grade-label">Performance</div>
+              <div class="am-grade-sub" id="amGradeSub"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="am-body">
+
+        <!-- Row 1: CALM + Decision Points -->
+        <div class="am-row am-row-2">
+          <div class="am-section">
+            <div class="am-section-head">
+              <div class="am-section-title">CALM Scorecard</div>
+              <div class="am-section-badge" id="amCalmBadge" style="background:rgba(249,115,22,0.15);color:#f97316;"></div>
+            </div>
+            <div class="am-section-body" id="amCalmBody"></div>
+          </div>
+          <div class="am-section">
+            <div class="am-section-head">
+              <div class="am-section-title">Decision Points</div>
+              <div class="am-section-badge" id="amDpBadge" style="background:rgba(34,197,94,0.15);color:#22c55e;"></div>
+            </div>
+            <div class="am-section-body" id="amDpBody"></div>
+          </div>
+        </div>
+
+        <!-- Row 2: Issues + Wins -->
+        <div class="am-row am-row-2">
+          <div class="am-section">
+            <div class="am-section-head">
+              <div class="am-section-title">Critical Issues</div>
+            </div>
+            <div class="am-section-body" id="amIssuesBody"></div>
+          </div>
+          <div class="am-section">
+            <div class="am-section-head">
+              <div class="am-section-title">Strong Moments</div>
+            </div>
+            <div class="am-section-body" id="amWinsBody"></div>
+          </div>
+        </div>
+
+        <!-- Row 3: Next Steps (3 col) -->
+        <div class="am-section" id="amStepsSection" style="display:none;">
+          <div class="am-section-head">
+            <div class="am-section-title">Next Steps to Win</div>
+          </div>
+          <div class="am-section-body">
+            <div class="am-row am-row-3" id="amStepsBody"></div>
+          </div>
+        </div>
+
+        <!-- Row 4: Prospect Profile + Objections -->
+        <div class="am-row am-row-2" id="amBottomRow">
+          <div class="am-section">
+            <div class="am-section-head">
+              <div class="am-section-title">Prospect Profile</div>
+            </div>
+            <div class="am-section-body" id="amProfileBody"></div>
+          </div>
+          <div class="am-section">
+            <div class="am-section-head">
+              <div class="am-section-title">Predicted Objections</div>
+            </div>
+            <div class="am-section-body" id="amObjBody"></div>
+          </div>
+        </div>
+
+      </div><!-- end am-body -->
+
+      <div class="am-footer">
+        <div class="am-footer-left">Analyzed with <strong>CallCoach Pro</strong> · CALM Method™</div>
+        <div class="am-footer-right">Clevette Coombs Consulting</div>
       </div>
     </div>
   </div>
@@ -3889,29 +4624,34 @@ Include speaker labels for best results." rows="10"></textarea>
       const container = document.getElementById('detailedSections');
       let html = '';
 
-      // Follow-Up Call Blueprint (new — most prominent)
-      if (analysis.followUpCallBlueprint) {
-        html += renderFollowUpBlueprint(analysis.followUpCallBlueprint);
+      // Proposal Builder — first, drives the sale forward
+      if (analysis.proposalBuilder) {
+        html += renderProposalBuilder(analysis.proposalBuilder);
       }
 
-      // Follow-Up Email
+      // Follow-Up Email — pairs with proposal to advance the deal
       if (analysis.followUpEmail) {
         html += renderFollowUpEmail(analysis.followUpEmail);
       }
 
-      // Unexplored Angles (new)
-      if (analysis.unexploredAngles?.length > 0) {
-        html += renderUnexploredAngles(analysis.unexploredAngles);
+      // Follow-Up Call Blueprint
+      if (analysis.followUpCallBlueprint) {
+        html += renderFollowUpBlueprint(analysis.followUpCallBlueprint);
       }
 
-      // Predictive Objections (new)
+      // Prospect Profile — communication style for next interaction
+      if (analysis.prospectProfile) {
+        html += renderProspectProfile(analysis.prospectProfile);
+      }
+
+      // Predictive Objections
       if (analysis.predictiveObjections?.length > 0) {
         html += renderPredictiveObjections(analysis.predictiveObjections);
       }
 
-      // Prospect Profile (new)
-      if (analysis.prospectProfile) {
-        html += renderProspectProfile(analysis.prospectProfile);
+      // Unexplored Angles
+      if (analysis.unexploredAngles?.length > 0) {
+        html += renderUnexploredAngles(analysis.unexploredAngles);
       }
 
       // Question Quality (new)
@@ -4039,6 +4779,110 @@ Include speaker labels for best results." rows="10"></textarea>
                 <div class="blueprint-objective-text">${escapeHtml(blueprint.successMetric)}</div>
               </div>
             ` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderProposalBuilder(pb) {
+      const painQuotes = pb.painQuotes || [];
+      const desireQuotes = pb.desireQuotes || [];
+      const framework = pb.proposalFramework || {};
+
+      return `
+        <div class="proposal-builder-section">
+          <div class="proposal-builder-header" onclick="this.parentElement.classList.toggle('open')">
+            <h4>📝 Proposal Builder <span class="proposal-badge">Use Their Words</span></h4>
+            <span class="detail-toggle">▼</span>
+          </div>
+          <div class="proposal-builder-content">
+
+            ${pb.proposalHook ? `
+              <div class="proposal-hook-box">
+                <div class="proposal-hook-label">Opening Line for Your Proposal</div>
+                <div class="proposal-hook-text">"${escapeHtml(pb.proposalHook)}"</div>
+              </div>
+            ` : ''}
+
+            <div class="proposal-two-col">
+              <div class="proposal-quotes-block">
+                <div class="proposal-quotes-block-label pain">Their Pain (verbatim)</div>
+                ${painQuotes.map(q => `
+                  <div class="proposal-quote-item">
+                    <div class="proposal-quote-mark pain">"</div>
+                    <div class="proposal-quote-text">${escapeHtml(q)}</div>
+                  </div>
+                `).join('')}
+              </div>
+              <div class="proposal-quotes-block">
+                <div class="proposal-quotes-block-label desire">Their Goal (verbatim)</div>
+                ${desireQuotes.map(q => `
+                  <div class="proposal-quote-item">
+                    <div class="proposal-quote-mark desire">"</div>
+                    <div class="proposal-quote-text">${escapeHtml(q)}</div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <div class="proposal-statement-row">
+              ${pb.coreProblemStatement ? `
+                <div class="proposal-statement">
+                  <div class="proposal-statement-label">Core Problem (in their language)</div>
+                  <div class="proposal-statement-text">${escapeHtml(pb.coreProblemStatement)}</div>
+                </div>
+              ` : ''}
+              ${pb.desiredOutcome ? `
+                <div class="proposal-statement">
+                  <div class="proposal-statement-label">Desired Outcome (in their language)</div>
+                  <div class="proposal-statement-text">${escapeHtml(pb.desiredOutcome)}</div>
+                </div>
+              ` : ''}
+            </div>
+
+            ${(framework.problem || framework.gap || framework.solution) ? `
+              <div class="proposal-framework-grid">
+                ${framework.problem ? `
+                  <div class="proposal-framework-step">
+                    <div class="proposal-framework-num">01 — Problem</div>
+                    <div class="proposal-framework-title">Where They Are</div>
+                    <div class="proposal-framework-text">${escapeHtml(framework.problem)}</div>
+                  </div>
+                ` : ''}
+                ${framework.gap ? `
+                  <div class="proposal-framework-step">
+                    <div class="proposal-framework-num">02 — Gap</div>
+                    <div class="proposal-framework-title">The Cost of Staying</div>
+                    <div class="proposal-framework-text">${escapeHtml(framework.gap)}</div>
+                  </div>
+                ` : ''}
+                ${framework.solution ? `
+                  <div class="proposal-framework-step">
+                    <div class="proposal-framework-num">03 — Solution</div>
+                    <div class="proposal-framework-title">What Changes</div>
+                    <div class="proposal-framework-text">${escapeHtml(framework.solution)}</div>
+                  </div>
+                ` : ''}
+              </div>
+            ` : ''}
+
+            ${pb.offerPositioning ? `
+              <div class="proposal-positioning-box">
+                <div class="proposal-positioning-label">Offer Positioning</div>
+                <div class="proposal-positioning-text">${escapeHtml(pb.offerPositioning)}</div>
+              </div>
+            ` : ''}
+
+            ${pb.proposalCTA ? `
+              <div class="proposal-cta-box">
+                <div class="proposal-cta-content">
+                  <div class="proposal-cta-label">Closing Ask</div>
+                  <div class="proposal-cta-text">${escapeHtml(pb.proposalCTA)}</div>
+                </div>
+                <button class="proposal-cta-copy-btn" onclick="copyToClipboard(${JSON.stringify(pb.proposalCTA || '')})">Copy</button>
+              </div>
+            ` : ''}
+
           </div>
         </div>
       `;
@@ -4386,6 +5230,60 @@ Include speaker labels for best results." rows="10"></textarea>
         document.getElementById('numberOneIssueCard').style.display = 'block';
       }
 
+      // Energy Signals Card
+      const es = analysis.energySignals;
+      if (es) {
+        const card = document.getElementById('energySignalsCard');
+        card.classList.add('visible');
+
+        // Prospect Mode
+        const mode = (es.prospectMode || '').toLowerCase();
+        const modeBadge = document.getElementById('prospectModeBadge');
+        const modeHint = document.getElementById('prospectModeHint');
+        modeBadge.className = `prospect-mode-badge ${mode}`;
+        modeBadge.textContent = mode === 'story' ? 'Story Mode' : mode === 'solution' ? 'Solution Mode' : mode || '-';
+        modeHint.textContent = mode === 'story'
+          ? 'Still processing — needs to feel heard before hearing the offer'
+          : mode === 'solution'
+          ? 'Evaluating options — ready to compare and decide'
+          : '';
+
+        // Commitment Level
+        const level = (es.commitmentLevel || '').toLowerCase();
+        const dial = document.getElementById('commitmentDial');
+        const hint = document.getElementById('commitmentHint');
+        dial.className = `commitment-dial ${level}`;
+        dial.textContent = level || '-';
+        hint.textContent = level === 'high'
+          ? '"Will" language used'
+          : level === 'medium'
+          ? 'Mixed signals'
+          : level === 'low'
+          ? '"Try" / "maybe" language'
+          : '';
+
+        // Enrollment Signals
+        const enrollEl = document.getElementById('enrollmentSignalText');
+        if (es.enrollmentSignals && es.enrollmentSignals !== 'None observed' && es.enrollmentSignals !== 'None') {
+          enrollEl.textContent = `"${es.enrollmentSignals}"`;
+          enrollEl.classList.remove('none');
+        } else {
+          enrollEl.textContent = 'None detected in this call';
+          enrollEl.classList.add('none');
+        }
+
+        // Observed Shifts
+        const shiftList = document.getElementById('energyShiftList');
+        const shifts = es.observed || [];
+        shiftList.innerHTML = shifts.length > 0
+          ? shifts.slice(0, 4).map(s => `
+              <div class="energy-shift-item">
+                <div class="energy-shift-dot"></div>
+                <span>${escapeHtml(s)}</span>
+              </div>`).join('')
+          : '<div class="energy-shift-item" style="color:var(--text-muted);font-style:italic;">No notable shifts observed</div>';
+      }
+
       // Next Action Card
       const nextAction = analysis.nextAction;
       if (nextAction) {
@@ -4519,7 +5417,11 @@ Include speaker labels for best results." rows="10"></textarea>
       const card = document.getElementById('infographicCard');
       const toolbar = document.querySelector('.infographic-toolbar');
       toolbar.style.visibility = 'hidden';
-      html2canvas(card, { backgroundColor: '#111', scale: 2, useCORS: true }).then(canvas => {
+      html2canvas(card, {
+        backgroundColor: '#111', scale: 2, useCORS: true,
+        scrollX: 0, scrollY: 0,
+        width: card.offsetWidth, height: card.scrollHeight
+      }).then(canvas => {
         toolbar.style.visibility = '';
         const link = document.createElement('a');
         link.download = `call-scorecard-${Date.now()}.png`;
@@ -4528,7 +5430,154 @@ Include speaker labels for best results." rows="10"></textarea>
       });
     }
 
-    // ===== NOTEBOOKLM EXPORT =====
+    // ===== ANALYSIS MAP =====
+    function showAnalysisMap() {
+      if (!currentAnalysis) return;
+      const a = currentAnalysis;
+      const name = document.getElementById('resultsTitle').textContent || 'Call Analysis';
+      const date = document.getElementById('resultsDate').textContent || '';
+
+      document.getElementById('amCallName').textContent = name;
+      document.getElementById('amCallDate').textContent = date;
+
+      // Grade
+      const grade = (a.overallGrade || '-').trim().charAt(0).toUpperCase();
+      const gradeEl = document.getElementById('amGrade');
+      gradeEl.textContent = grade;
+      gradeEl.style.color = GRADE_COLORS[grade] || '#f97316';
+      document.getElementById('amGradeSub').textContent = grade === 'A' ? 'Excellent' : grade === 'B' ? 'Good' : grade === 'C' ? 'Average' : grade === 'D' ? 'Below avg' : grade === 'F' ? 'Critical' : '';
+
+      // Closing prob
+      const prob = a.closingProbability?.percentage ?? a.closingProbability ?? null;
+      const probNum = parseInt(prob) || 0;
+      document.getElementById('amClosingProb').textContent = prob !== null ? `${probNum}%` : '-';
+      const fillEl = document.getElementById('amProbFill');
+      fillEl.style.width = `${probNum}%`;
+      fillEl.style.background = probNum >= 60 ? '#22c55e' : probNum >= 35 ? '#eab308' : '#ef4444';
+
+      // Deal health + stage
+      document.getElementById('amDealHealth').textContent = a.dealHealth?.status || a.dealHealth || '-';
+      document.getElementById('amStage').textContent = a.buyerJourneyStage?.stage || a.buyerJourneyStage || '-';
+
+      // CALM bars
+      const sc = a.calmScorecard || {};
+      let calmTotal = 0, calmCount = 0;
+      document.getElementById('amCalmBody').innerHTML = CALM_KEYS.map(({ letter, key, label }) => {
+        const score = sc[key]?.score ?? null;
+        if (score !== null) { calmTotal += score; calmCount++; }
+        const cls = score !== null ? (score >= 7 ? 'high' : score >= 4 ? 'medium' : 'low') : 'low';
+        const pct = score !== null ? `${score * 10}%` : '0%';
+        return `<div class="am-calm-row">
+          <div class="am-calm-l">${letter}</div>
+          <div class="am-calm-name">${label}</div>
+          <div class="am-calm-track"><div class="am-calm-fill ${cls}" style="width:${pct}"></div></div>
+          <div class="am-calm-score">${score !== null ? `${score}/10` : '-'}</div>
+        </div>`;
+      }).join('');
+      const avgCalm = calmCount > 0 ? (calmTotal / calmCount).toFixed(1) : '-';
+      document.getElementById('amCalmBadge').textContent = avgCalm !== '-' ? `avg ${avgCalm}/10` : '';
+
+      // Decision points
+      const dpa = a.decisionPointsAnalysis?.points || a.decisionPointsAnalysis?.decisionPoints || [];
+      const passed = dpa.filter(p => p.passed === true || p.status === 'passed').length;
+      const dpTotal = dpa.length || 7;
+      document.getElementById('amDpBadge').textContent = dpa.length ? `${passed}/${dpTotal} passed` : '';
+      if (dpa.length > 0) {
+        document.getElementById('amDpBody').innerHTML = `<div class="am-dp-grid">${dpa.map((p, i) => {
+          const isPassed = p.passed === true || p.status === 'passed';
+          return `<div class="am-dp-item">
+            <div class="am-dp-dot ${isPassed ? 'passed' : 'failed'}">${isPassed ? '✓' : '✗'}</div>
+            <div class="am-dp-text">${DP_LABELS[i] || `Point ${i+1}`}</div>
+          </div>`;
+        }).join('')}</div>`;
+      } else {
+        document.getElementById('amDpBody').innerHTML = '<div style="color:#525252;font-size:0.78rem;">No decision point data</div>';
+      }
+
+      // Critical issues
+      const issues = a.criticalMistakes || [];
+      const ni = a.numberOneIssue;
+      const issueItems = ni ? [{ mistake: ni.issue, impact: ni.whyItMatters }, ...issues.slice(0, 3)] : issues.slice(0, 4);
+      document.getElementById('amIssuesBody').innerHTML = issueItems.length > 0
+        ? issueItems.map(m => `<div class="am-list-item"><div class="am-list-dot issue"></div><div>${escapeHtml(m.mistake || m.issue || '')}</div></div>`).join('')
+        : '<div style="color:#525252;font-size:0.78rem;">No critical issues identified</div>';
+
+      // Strong moments
+      const wins = a.strongMoments || [];
+      document.getElementById('amWinsBody').innerHTML = wins.length > 0
+        ? wins.slice(0, 4).map(m => `<div class="am-list-item"><div class="am-list-dot win"></div><div>${escapeHtml(m.moment || m)}</div></div>`).join('')
+        : '<div style="color:#525252;font-size:0.78rem;">No strong moments data</div>';
+
+      // Next steps
+      const steps = a.nextStepsToWinBack || [];
+      const stepsSection = document.getElementById('amStepsSection');
+      if (steps.length > 0) {
+        stepsSection.style.display = 'block';
+        document.getElementById('amStepsBody').innerHTML = steps.slice(0, 3).map((s, i) => `
+          <div class="am-step">
+            <div class="am-step-num">${i + 1}</div>
+            <div class="am-step-text">${escapeHtml(s.step || '')}</div>
+            ${s.timing ? `<div class="am-step-timing">${escapeHtml(s.timing)}</div>` : ''}
+            ${s.script ? `<div class="am-step-script">"${escapeHtml(s.script)}"</div>` : ''}
+          </div>`).join('');
+      } else {
+        stepsSection.style.display = 'none';
+      }
+
+      // Prospect profile
+      const prof = a.prospectCommunicationProfile || a.prospectProfile || {};
+      const painWords = prof.keyPainWords || [];
+      const desireWords = prof.keyDesireWords || [];
+      document.getElementById('amProfileBody').innerHTML = `
+        <div class="am-profile-badges">
+          ${prof.communicationStyle ? `<div class="am-profile-badge">Style: <span>${escapeHtml(prof.communicationStyle)}</span></div>` : ''}
+          ${prof.pacePreference ? `<div class="am-profile-badge">Pace: <span>${escapeHtml(prof.pacePreference)}</span></div>` : ''}
+          ${prof.motivationDriver ? `<div class="am-profile-badge">Driver: <span>${escapeHtml(prof.motivationDriver)}</span></div>` : ''}
+        </div>
+        ${painWords.length > 0 ? `<div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.08em;color:#737373;margin-bottom:5px;">Pain Words</div><div class="am-word-tags">${painWords.slice(0,6).map(w=>`<span class="am-word-tag">${escapeHtml(w)}</span>`).join('')}</div>` : ''}
+        ${desireWords.length > 0 ? `<div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.08em;color:#737373;margin:8px 0 5px;">Desire Words</div><div class="am-word-tags">${desireWords.slice(0,6).map(w=>`<span class="am-word-tag">${escapeHtml(w)}</span>`).join('')}</div>` : ''}
+        ${!prof.communicationStyle && painWords.length === 0 && desireWords.length === 0 ? '<div style="color:#525252;font-size:0.78rem;">No profile data available</div>' : ''}
+      `;
+
+      // Objections
+      const objs = a.predictiveObjections || a.predictedObjections || [];
+      document.getElementById('amObjBody').innerHTML = objs.length > 0
+        ? objs.slice(0, 3).map(o => `
+          <div class="am-obj-item">
+            <div class="am-obj-text">"${escapeHtml(o.objection || '')}"</div>
+            <span class="am-obj-prob ${o.probability || 'medium'}">${o.probability || 'medium'}</span>
+            ${o.preEmptiveMove ? `<div class="am-obj-response">${escapeHtml(o.preEmptiveMove)}</div>` : ''}
+          </div>`).join('')
+        : '<div style="color:#525252;font-size:0.78rem;">No objection data available</div>';
+
+      document.getElementById('analysisMapOverlay').classList.add('open');
+    }
+
+    function closeAnalysisMap(e) {
+      if (e.target === document.getElementById('analysisMapOverlay')) closeAnalysisMapBtn();
+    }
+    function closeAnalysisMapBtn() {
+      document.getElementById('analysisMapOverlay').classList.remove('open');
+    }
+
+    function downloadAnalysisMap() {
+      const card = document.getElementById('analysisMapCard');
+      const toolbar = document.getElementById('analysisMapToolbar');
+      toolbar.style.visibility = 'hidden';
+      html2canvas(card, {
+        backgroundColor: '#111', scale: 2, useCORS: true,
+        scrollX: 0, scrollY: 0,
+        width: card.offsetWidth, height: card.scrollHeight
+      }).then(canvas => {
+        toolbar.style.visibility = '';
+        const link = document.createElement('a');
+        link.download = `analysis-map-${Date.now()}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      });
+    }
+
+    // (removed NotebookLM export — replaced by Analysis Map)
     function exportForNotebookLM() {
       if (!currentAnalysis) return;
       const a = currentAnalysis;
@@ -4629,6 +5678,28 @@ Include speaker labels for best results." rows="10"></textarea>
         lines.push('');
       }
 
+      if (a.proposalBuilder) {
+        const pb = a.proposalBuilder;
+        lines.push('## Proposal Builder');
+        if (pb.proposalHook) lines.push(`> "${pb.proposalHook}"`);
+        if (pb.painQuotes?.length > 0) {
+          lines.push('\n**Their Pain (verbatim)**');
+          pb.painQuotes.forEach(q => lines.push(`- "${q}"`));
+        }
+        if (pb.desireQuotes?.length > 0) {
+          lines.push('\n**Their Goal (verbatim)**');
+          pb.desireQuotes.forEach(q => lines.push(`- "${q}"`));
+        }
+        if (pb.coreProblemStatement) lines.push(`\n**Core Problem:** ${pb.coreProblemStatement}`);
+        if (pb.desiredOutcome) lines.push(`**Desired Outcome:** ${pb.desiredOutcome}`);
+        if (pb.proposalFramework?.problem) lines.push(`\n**Proposal — Problem:** ${pb.proposalFramework.problem}`);
+        if (pb.proposalFramework?.gap) lines.push(`**Proposal — Gap:** ${pb.proposalFramework.gap}`);
+        if (pb.proposalFramework?.solution) lines.push(`**Proposal — Solution:** ${pb.proposalFramework.solution}`);
+        if (pb.offerPositioning) lines.push(`\n**Offer Positioning:** ${pb.offerPositioning}`);
+        if (pb.proposalCTA) lines.push(`\n**Closing Ask:** "${pb.proposalCTA}"`);
+        lines.push('');
+      }
+
       if (a.followUpEmail) {
         const fe = a.followUpEmail;
         lines.push('## Follow-Up Email Draft');
@@ -4720,13 +5791,33 @@ Include speaker labels for best results." rows="10"></textarea>
           </ol>
         ` : ''}
         
+        ${a.proposalBuilder ? `
+          <h2>Proposal Builder</h2>
+          ${a.proposalBuilder.proposalHook ? `<p style="font-size:1.1em;font-style:italic;border-left:4px solid #f97316;padding-left:12px;margin-bottom:16px;">"${a.proposalBuilder.proposalHook}"</p>` : ''}
+          ${a.proposalBuilder.painQuotes?.length > 0 ? `
+            <h3>Their Pain (verbatim)</h3>
+            <ul>${a.proposalBuilder.painQuotes.map(q => `<li>"${q}"</li>`).join('')}</ul>
+          ` : ''}
+          ${a.proposalBuilder.desireQuotes?.length > 0 ? `
+            <h3>Their Goal (verbatim)</h3>
+            <ul>${a.proposalBuilder.desireQuotes.map(q => `<li>"${q}"</li>`).join('')}</ul>
+          ` : ''}
+          ${a.proposalBuilder.coreProblemStatement ? `<p><strong>Core Problem:</strong> ${a.proposalBuilder.coreProblemStatement}</p>` : ''}
+          ${a.proposalBuilder.desiredOutcome ? `<p><strong>Desired Outcome:</strong> ${a.proposalBuilder.desiredOutcome}</p>` : ''}
+          ${a.proposalBuilder.proposalFramework?.problem ? `<p><strong>Proposal — Problem:</strong> ${a.proposalBuilder.proposalFramework.problem}</p>` : ''}
+          ${a.proposalBuilder.proposalFramework?.gap ? `<p><strong>Proposal — Gap:</strong> ${a.proposalBuilder.proposalFramework.gap}</p>` : ''}
+          ${a.proposalBuilder.proposalFramework?.solution ? `<p><strong>Proposal — Solution:</strong> ${a.proposalBuilder.proposalFramework.solution}</p>` : ''}
+          ${a.proposalBuilder.offerPositioning ? `<p><strong>Offer Positioning:</strong> ${a.proposalBuilder.offerPositioning}</p>` : ''}
+          ${a.proposalBuilder.proposalCTA ? `<div class="script"><strong>Closing Ask:</strong> ${a.proposalBuilder.proposalCTA}</div>` : ''}
+        ` : ''}
+
         ${a.guidedQuestionsForNextCall ? `
           <h2>Questions for Next Call</h2>
           <ol>
           ${a.guidedQuestionsForNextCall.map(q => `<li>"${q.question}"</li>`).join('')}
           </ol>
         ` : ''}
-        
+
         </body></html>
       `;
     }

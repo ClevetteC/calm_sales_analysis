@@ -276,6 +276,17 @@ Write a complete, ready-to-send follow-up email grounded in this specific call:
 - Recommended send timing
 - What to do if no reply within 3 business days
 
+12. PROPOSAL BUILDER:
+Using ONLY the prospect's exact words from this call, build a proposal-ready brief:
+- painQuotes: 3-5 verbatim quotes where the prospect described their problem, frustration, or struggle. Use their exact phrasing — this is what the proposal must echo back.
+- desireQuotes: 3-5 verbatim quotes where the prospect described the outcome, life, or result they want. Use their exact words.
+- coreProblemStatement: One sentence synthesizing the prospect's core problem using their language — no sales jargon. Start with "You're..." and write it as if speaking directly to them.
+- desiredOutcome: One sentence synthesizing what they said they want — in their words, not yours.
+- proposalHook: The single most compelling thing they said that makes the strongest case for buying. This is the opening line of the proposal.
+- proposalFramework: A 3-part structure for the proposal: (1) the problem in their words, (2) the gap between where they are and where they want to be, (3) the solution positioned against their stated goals.
+- offerPositioning: How to frame the offer specifically for this prospect — which features/outcomes to lead with based on what they said, and which to de-emphasize.
+- proposalCTA: The exact closing ask for the proposal — what to ask them to do next, in a way that feels like a natural continuation of the conversation rather than a pitch.
+
 IMPORTANT: You MUST respond with valid JSON only. No markdown, no code blocks, no extra text.
 
 === REQUIRED FIELDS - MUST ALWAYS INCLUDE ===
@@ -533,6 +544,20 @@ OUTPUT FORMAT (respond with this exact JSON structure):
     "sendTiming": "When exactly to send this email and why",
     "noReplyFollowUp": "Exact action/message to send if no reply within 3 business days"
   },
+  "proposalBuilder": {
+    "painQuotes": ["Exact quote 1 from prospect about their problem", "Exact quote 2"],
+    "desireQuotes": ["Exact quote 1 from prospect about what they want", "Exact quote 2"],
+    "coreProblemStatement": "You're [one-sentence synthesis using their language]",
+    "desiredOutcome": "One sentence synthesizing their stated desired outcome in their words",
+    "proposalHook": "The single most compelling thing they said — the opening line of the proposal",
+    "proposalFramework": {
+      "problem": "The problem section written in their words",
+      "gap": "The gap between current state and desired state — quantified where possible",
+      "solution": "How the offer maps to their stated goals — in their language"
+    },
+    "offerPositioning": "Which features/outcomes to lead with and which to de-emphasize based on what they said",
+    "proposalCTA": "The exact closing ask — what to ask them to do next"
+  },
   "executiveSummary": "3-4 sentences: Buyer stage detected (TOFU/MOFU/BOFU), which decision point failed, seller approach match, and the #1 recovery action needed."
 }
 
@@ -558,6 +583,7 @@ ANALYSIS APPROACH:
 13. ELEVENTH: Score QUESTION QUALITY and identify missing high-value questions
 14. TWELFTH: Predict TOP 3 OBJECTIONS for next call with pre-built responses
 15. THIRTEENTH: Draft a ready-to-send FOLLOW-UP EMAIL grounded in this specific call
+16. FOURTEENTH: Build a PROPOSAL BUILDER brief using only the prospect's exact words — pain quotes, desire quotes, core problem statement, and a ready-to-use proposal framework
 
 REMINDER: You MUST include closingProbability.percentage (0-100) and dealHealth.status in EVERY response. These are required fields.
 
