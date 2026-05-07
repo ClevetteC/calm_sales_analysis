@@ -2844,15 +2844,15 @@
       color: #000;
     }
 
-    /* ===== PROPOSAL DOCUMENT PREVIEW ===== */
+    /* ===== PROPOSAL DOCUMENT ===== */
     .proposal-doc-wrapper {
-      margin-top: 16px;
+      margin-top: 4px;
     }
 
     .proposal-doc-actions {
       display: flex;
       gap: 8px;
-      margin-bottom: 12px;
+      margin-bottom: 16px;
       flex-wrap: wrap;
     }
 
@@ -2860,7 +2860,7 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 8px 16px;
+      padding: 8px 18px;
       border-radius: 8px;
       font-size: 0.83rem;
       font-weight: 600;
@@ -2882,48 +2882,136 @@
     }
 
     .proposal-doc-btn.download {
-      background: rgba(255,255,255,0.05);
+      background: rgba(255,255,255,0.04);
       color: var(--text-secondary);
       border: 1px solid var(--border-color);
     }
 
     .proposal-doc-btn.download:hover {
-      background: rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.08);
       color: var(--text-primary);
     }
 
-    .proposal-doc-preview {
-      background: #1a1a22;
-      border: 1px solid rgba(249, 115, 22, 0.15);
-      border-left: 3px solid var(--accent-primary);
-      border-radius: 0 12px 12px 0;
-      padding: 28px 32px;
-      font-size: 0.93rem;
-      line-height: 1.75;
+    /* The structured proposal document */
+    .proposal-document {
+      border: 1px solid rgba(249, 115, 22, 0.2);
+      border-radius: 14px;
+      overflow: hidden;
+      background: #16161e;
+    }
+
+    .proposal-doc-header {
+      background: rgba(249, 115, 22, 0.08);
+      border-bottom: 1px solid rgba(249, 115, 22, 0.18);
+      padding: 20px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .proposal-doc-title {
+      font-size: 1rem;
+      font-weight: 700;
       color: var(--text-primary);
-      white-space: pre-wrap;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    .proposal-doc-subtitle {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .proposal-doc-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent-primary);
+      background: rgba(249, 115, 22, 0.1);
+      border: 1px solid rgba(249, 115, 22, 0.25);
+      border-radius: 4px;
+      padding: 4px 10px;
+      white-space: nowrap;
+    }
+
+    .proposal-section-block {
+      padding: 22px 28px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .proposal-section-block:last-child {
+      border-bottom: none;
+    }
+
+    .proposal-section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent-primary);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .proposal-section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(249, 115, 22, 0.15);
+    }
+
+    .proposal-section-body {
+      font-size: 0.92rem;
+      line-height: 1.72;
+      color: var(--text-primary);
       font-family: 'Georgia', 'Times New Roman', serif;
     }
 
-    .proposal-doc-preview p {
-      margin: 0 0 1.2em 0;
+    .proposal-section-body.overview-body {
+      font-size: 0.97rem;
+      color: var(--text-primary);
     }
 
-    .proposal-doc-preview p:last-child {
-      margin-bottom: 0;
-    }
-
-    .proposal-doc-preview p:first-child {
-      font-size: 1.05rem;
-      font-style: italic;
+    .proposal-section-body.nextsteps-body {
+      font-weight: 600;
       color: var(--accent-primary);
-      border-left: none;
+      font-family: inherit;
+      font-size: 0.93rem;
+    }
+
+    .proposal-objectives-list {
+      list-style: none;
       padding: 0;
-      margin-bottom: 1.4em;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .proposal-objectives-list li {
+      display: flex;
+      gap: 10px;
+      font-size: 0.92rem;
+      line-height: 1.5;
+      color: var(--text-primary);
+      font-family: 'Georgia', 'Times New Roman', serif;
+    }
+
+    .proposal-objectives-list li::before {
+      content: '→';
+      color: var(--accent-primary);
+      flex-shrink: 0;
+      font-family: inherit;
+      font-style: normal;
     }
 
     .proposal-source-toggle {
-      margin-top: 20px;
+      margin-top: 16px;
       border-top: 1px solid var(--border-color);
       padding-top: 12px;
     }
@@ -2932,7 +3020,7 @@
       background: none;
       border: none;
       color: var(--text-muted);
-      font-size: 0.8rem;
+      font-size: 0.79rem;
       cursor: pointer;
       font-family: inherit;
       padding: 4px 0;
@@ -5061,27 +5149,69 @@ Include speaker labels for best results." rows="10"></textarea>
       const painQuotes = pb.painQuotes || [];
       const desireQuotes = pb.desireQuotes || [];
       const framework = pb.proposalFramework || {};
+      const draft = pb.proposalDraft;
 
-      // Build the proposal text -- use proposalDraft if present, else compose from ingredients
-      let proposalText = pb.proposalDraft || '';
-      if (!proposalText) {
-        const parts = [];
-        if (pb.proposalHook) parts.push(`"${pb.proposalHook}"`);
-        if (pb.coreProblemStatement) parts.push(pb.coreProblemStatement);
-        if (framework.problem) parts.push(framework.problem);
-        if (framework.gap) parts.push(framework.gap);
-        if (framework.solution) parts.push(framework.solution);
-        if (pb.desiredOutcome) parts.push(`What you said you wanted: ${pb.desiredOutcome}`);
-        if (pb.proposalCTA) parts.push(pb.proposalCTA);
-        proposalText = parts.join('\n\n');
+      // Normalise draft: could be object (new) or string (legacy)
+      let sections = null;
+      if (draft && typeof draft === 'object') {
+        sections = draft;
+      } else if (typeof draft === 'string' && draft.trim()) {
+        // Legacy string: treat entire text as overview, compose rest from ingredients
+        sections = {
+          overview: draft,
+          whatWeHeard: pb.coreProblemStatement || '',
+          objectives: pb.desiredOutcome || '',
+          proposal: framework.solution || '',
+          value: framework.gap || '',
+          nextSteps: pb.proposalCTA || ''
+        };
+      } else {
+        // No draft at all — compose entirely from ingredients
+        sections = {
+          overview: pb.proposalHook ? `"${pb.proposalHook}"` : '',
+          whatWeHeard: pb.coreProblemStatement || '',
+          objectives: pb.desiredOutcome || '',
+          proposal: framework.solution || '',
+          value: framework.gap || '',
+          nextSteps: pb.proposalCTA || ''
+        };
       }
 
-      // Store globally for copy/download buttons
-      window._currentProposalText = proposalText;
+      // Build plain-text version for copy/download
+      const plainText = [
+        'PROPOSAL',
+        '─────────────────────────────────────',
+        '',
+        'OVERVIEW',
+        sections.overview || '',
+        '',
+        'WHAT WE HEARD',
+        sections.whatWeHeard || '',
+        '',
+        'YOUR OBJECTIVES',
+        sections.objectives || '',
+        '',
+        'WHAT WE\'RE PROPOSING',
+        sections.proposal || '',
+        '',
+        'THE VALUE',
+        sections.value || '',
+        '',
+        'NEXT STEPS',
+        sections.nextSteps || '',
+        '',
+        '─────────────────────────────────────',
+        '[Your Name]',
+        '[Your Title] | [Your Contact]'
+      ].join('\n');
 
-      // Render paragraphs — split on double newlines
-      const proposalHtml = proposalText.split(/\n\n+/).map(p => p.trim()).filter(Boolean)
-        .map(p => `<p>${escapeHtml(p).replace(/\n/g, '<br>')}</p>`).join('');
+      window._currentProposalText = plainText;
+
+      // Parse objectives into list items if they contain numbered/bulleted lines
+      const objectivesLines = (sections.objectives || '').split(/\n/).map(l => l.trim()).filter(Boolean);
+      const objectivesHtml = objectivesLines.length > 1
+        ? `<ul class="proposal-objectives-list">${objectivesLines.map(l => `<li>${escapeHtml(l.replace(/^(\d+[\.\)]\s*|[-\*•]\s*)/, ''))}</li>`).join('')}</ul>`
+        : `<div class="proposal-section-body">${escapeHtml(sections.objectives || '')}</div>`;
 
       const sourceId = 'proposal-source-' + Date.now();
 
@@ -5092,89 +5222,112 @@ Include speaker labels for best results." rows="10"></textarea>
             <span class="detail-toggle">▼</span>
           </div>
           <div class="proposal-builder-content">
-
             <div class="proposal-doc-wrapper">
+
               <div class="proposal-doc-actions">
-                <button class="proposal-doc-btn copy" onclick="copyProposalDoc(this)">
-                  📋 Copy Proposal
-                </button>
-                <button class="proposal-doc-btn download" onclick="downloadProposalDoc(window._currentProposalText || '', 'proposal-draft.txt')">
-                  ⬇ Download .txt
-                </button>
+                <button class="proposal-doc-btn copy" onclick="copyProposalDoc(this)">📋 Copy Proposal</button>
+                <button class="proposal-doc-btn download" onclick="downloadProposalDoc(window._currentProposalText || '', 'proposal-draft.txt')">⬇ Download .txt</button>
               </div>
-              <div class="proposal-doc-preview">${proposalHtml}</div>
-            </div>
 
-            <div class="proposal-source-toggle">
-              <button class="proposal-source-toggle-btn" onclick="document.getElementById('${sourceId}').classList.toggle('open'); this.textContent = document.getElementById('${sourceId}').classList.contains('open') ? '▲ Hide source quotes' : '▼ Source quotes & positioning'">
-                ▼ Source quotes &amp; positioning
-              </button>
-              <div id="${sourceId}" class="proposal-source-body">
+              <div class="proposal-document">
 
-                ${pb.proposalHook ? `
-                  <div class="proposal-hook-box" style="margin-bottom:16px;">
-                    <div class="proposal-hook-label">Strongest Quote (Opening Hook)</div>
-                    <div class="proposal-hook-text">"${escapeHtml(pb.proposalHook)}"</div>
+                <div class="proposal-doc-header">
+                  <div>
+                    <div class="proposal-doc-title">Proposal</div>
+                    <div class="proposal-doc-subtitle">Prepared for [Prospect Name] &nbsp;·&nbsp; [Date]</div>
                   </div>
-                ` : ''}
-
-                <div class="proposal-two-col">
-                  <div class="proposal-quotes-block">
-                    <div class="proposal-quotes-block-label pain">Their Pain (verbatim)</div>
-                    ${painQuotes.map(q => `
-                      <div class="proposal-quote-item">
-                        <div class="proposal-quote-mark pain">"</div>
-                        <div class="proposal-quote-text">${escapeHtml(q)}</div>
-                      </div>
-                    `).join('')}
-                  </div>
-                  <div class="proposal-quotes-block">
-                    <div class="proposal-quotes-block-label desire">Their Goal (verbatim)</div>
-                    ${desireQuotes.map(q => `
-                      <div class="proposal-quote-item">
-                        <div class="proposal-quote-mark desire">"</div>
-                        <div class="proposal-quote-text">${escapeHtml(q)}</div>
-                      </div>
-                    `).join('')}
-                  </div>
+                  <div class="proposal-doc-label">Confidential</div>
                 </div>
 
-                ${(framework.problem || framework.gap || framework.solution) ? `
-                  <div class="proposal-framework-grid" style="margin-top:16px;">
-                    ${framework.problem ? `
-                      <div class="proposal-framework-step">
-                        <div class="proposal-framework-num">01 — Problem</div>
-                        <div class="proposal-framework-title">Where They Are</div>
-                        <div class="proposal-framework-text">${escapeHtml(framework.problem)}</div>
-                      </div>
-                    ` : ''}
-                    ${framework.gap ? `
-                      <div class="proposal-framework-step">
-                        <div class="proposal-framework-num">02 — Gap</div>
-                        <div class="proposal-framework-title">The Cost of Staying</div>
-                        <div class="proposal-framework-text">${escapeHtml(framework.gap)}</div>
-                      </div>
-                    ` : ''}
-                    ${framework.solution ? `
-                      <div class="proposal-framework-step">
-                        <div class="proposal-framework-num">03 — Solution</div>
-                        <div class="proposal-framework-title">What Changes</div>
-                        <div class="proposal-framework-text">${escapeHtml(framework.solution)}</div>
-                      </div>
-                    ` : ''}
+                ${sections.overview ? `
+                  <div class="proposal-section-block">
+                    <div class="proposal-section-label">Overview</div>
+                    <div class="proposal-section-body overview-body">${escapeHtml(sections.overview)}</div>
                   </div>
                 ` : ''}
 
-                ${pb.offerPositioning ? `
-                  <div class="proposal-positioning-box" style="margin-top:16px;">
-                    <div class="proposal-positioning-label">How to Position the Offer</div>
-                    <div class="proposal-positioning-text">${escapeHtml(pb.offerPositioning)}</div>
+                ${sections.whatWeHeard ? `
+                  <div class="proposal-section-block">
+                    <div class="proposal-section-label">What We Heard</div>
+                    <div class="proposal-section-body">${escapeHtml(sections.whatWeHeard)}</div>
+                  </div>
+                ` : ''}
+
+                ${sections.objectives ? `
+                  <div class="proposal-section-block">
+                    <div class="proposal-section-label">Your Objectives</div>
+                    ${objectivesHtml}
+                  </div>
+                ` : ''}
+
+                ${sections.proposal ? `
+                  <div class="proposal-section-block">
+                    <div class="proposal-section-label">What We're Proposing</div>
+                    <div class="proposal-section-body">${escapeHtml(sections.proposal)}</div>
+                  </div>
+                ` : ''}
+
+                ${sections.value ? `
+                  <div class="proposal-section-block">
+                    <div class="proposal-section-label">The Value</div>
+                    <div class="proposal-section-body">${escapeHtml(sections.value)}</div>
+                  </div>
+                ` : ''}
+
+                ${sections.nextSteps ? `
+                  <div class="proposal-section-block">
+                    <div class="proposal-section-label">Next Steps</div>
+                    <div class="proposal-section-body nextsteps-body">${escapeHtml(sections.nextSteps)}</div>
                   </div>
                 ` : ''}
 
               </div>
-            </div>
 
+              <div class="proposal-source-toggle">
+                <button class="proposal-source-toggle-btn" onclick="document.getElementById('${sourceId}').classList.toggle('open'); this.textContent = document.getElementById('${sourceId}').classList.contains('open') ? '▲ Hide source quotes' : '▼ Source quotes &amp; call intel'">
+                  ▼ Source quotes &amp; call intel
+                </button>
+                <div id="${sourceId}" class="proposal-source-body">
+
+                  ${pb.proposalHook ? `
+                    <div class="proposal-hook-box" style="margin-bottom:16px;">
+                      <div class="proposal-hook-label">Strongest Quote</div>
+                      <div class="proposal-hook-text">"${escapeHtml(pb.proposalHook)}"</div>
+                    </div>
+                  ` : ''}
+
+                  <div class="proposal-two-col">
+                    <div class="proposal-quotes-block">
+                      <div class="proposal-quotes-block-label pain">Their Pain (verbatim)</div>
+                      ${painQuotes.map(q => `
+                        <div class="proposal-quote-item">
+                          <div class="proposal-quote-mark pain">"</div>
+                          <div class="proposal-quote-text">${escapeHtml(q)}</div>
+                        </div>
+                      `).join('')}
+                    </div>
+                    <div class="proposal-quotes-block">
+                      <div class="proposal-quotes-block-label desire">Their Goal (verbatim)</div>
+                      ${desireQuotes.map(q => `
+                        <div class="proposal-quote-item">
+                          <div class="proposal-quote-mark desire">"</div>
+                          <div class="proposal-quote-text">${escapeHtml(q)}</div>
+                        </div>
+                      `).join('')}
+                    </div>
+                  </div>
+
+                  ${pb.offerPositioning ? `
+                    <div class="proposal-positioning-box" style="margin-top:16px;">
+                      <div class="proposal-positioning-label">How to Position the Offer</div>
+                      <div class="proposal-positioning-text">${escapeHtml(pb.offerPositioning)}</div>
+                    </div>
+                  ` : ''}
+
+                </div>
+              </div>
+
+            </div>
           </div>
         </div>
       `;
@@ -5183,9 +5336,9 @@ Include speaker labels for best results." rows="10"></textarea>
     function copyProposalDoc(btn) {
       const text = window._currentProposalText || '';
       navigator.clipboard.writeText(text).then(() => {
-        const orig = btn.textContent;
-        btn.textContent = '✓ Copied!';
-        setTimeout(() => { btn.textContent = orig; }, 2000);
+        const orig = btn.innerHTML;
+        btn.innerHTML = '✓ Copied!';
+        setTimeout(() => { btn.innerHTML = orig; }, 2000);
       });
     }
 

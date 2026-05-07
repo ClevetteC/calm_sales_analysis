@@ -286,7 +286,7 @@ Using ONLY the prospect's exact words from this call, build a proposal-ready bri
 - proposalFramework: A 3-part structure for the proposal: (1) the problem in their words, (2) the gap between where they are and where they want to be, (3) the solution positioned against their stated goals.
 - offerPositioning: How to frame the offer specifically for this prospect — which features/outcomes to lead with based on what they said, and which to de-emphasize.
 - proposalCTA: The exact closing ask for the proposal — what to ask them to do next, in a way that feels like a natural continuation of the conversation rather than a pitch.
-- proposalDraft: Write the COMPLETE proposal as a short, human document the seller can send directly to the prospect. Structure it as follows — each section separated by a blank line: (1) Open with their most compelling quote as the first line, in quotation marks. (2) One short paragraph: what you heard — reflect their problem back using their exact phrasing from the call. (3) One short paragraph: what staying where they are is costing them — be specific, no vague generalities. (4) One short paragraph: what you are proposing — map the solution directly to what they said they want. (5) One short sentence or two: the next step. Keep the full draft under 350 words. Write in first person from the seller. Use [Prospect Name] as placeholder. Use their actual name if known. TONE RULES: Write like a real person, not a pitch deck. No corporate jargon. No words like: leverage, utilize, robust, seamless, empower, transform, cutting-edge, game-changing, unlock, harness, elevate. No filler openers like "I wanted to reach out" or "I hope this finds you well." No em dashes. Start sentences with short, direct words. Write the way a trusted advisor would speak — honest, warm, direct.
+- proposalDraft: Write a STRUCTURED proposal document with exactly these six sections as a JSON object: (1) overview: 2-3 sentences. Open with their single most compelling quote in quotation marks, then briefly frame what this proposal is about. (2) whatWeHeard: 2-4 sentences. Reflect back their situation and pain in their own language — reference specific things they said. No paraphrasing into jargon. Make them feel heard. (3) objectives: 3-4 specific objectives in their words — what they said they want to achieve from this call. Write as clear, concrete statements, not vague aspirations. (4) proposal: What you are specifically offering. Map each element directly to one of their stated objectives. Be concrete — no generic feature lists. (5) value: The real-world outcome if they move forward. Quantify wherever the call gave you numbers. Include the cost of staying where they are. (6) nextSteps: One clear, specific, low-friction action. State exactly what happens next, by when, and who does what. TONE RULES for all six sections: Write like a trusted advisor who listened carefully and is putting a specific, relevant solution in front of them. No corporate jargon. No em dashes. No filler openers. Banned words: leverage, utilize, robust, seamless, empower, transform, cutting-edge, game-changing, unlock, harness, elevate, furthermore, moreover. Use [Prospect Name] as placeholder. Total across all sections: under 450 words.
 
 IMPORTANT: You MUST respond with valid JSON only. No markdown, no code blocks, no extra text.
 
@@ -351,7 +351,14 @@ OUTPUT FORMAT (respond with this exact JSON structure):
     },
     "offerPositioning": "Lead with X, de-emphasize Y — based specifically on what they said",
     "proposalCTA": "The exact closing ask that feels like a natural continuation of this conversation",
-    "proposalDraft": "Full ready-to-send proposal document. Opens with their strongest quote. Then: what you heard (problem in their words), cost of staying, what you're proposing, next step. Under 350 words. Human tone, no jargon, no em dashes, no filler openers. Use [Prospect Name] placeholder."
+    "proposalDraft": {
+      "overview": "2-3 sentences. Opens with their strongest quote. Sets the purpose of this proposal.",
+      "whatWeHeard": "2-4 sentences reflecting their situation and pain in their own words from the call.",
+      "objectives": "3-4 specific objectives the prospect stated — what they want to achieve, in their language.",
+      "proposal": "What you are specifically offering, mapped directly to their stated objectives. Concrete, not generic.",
+      "value": "Real-world outcomes, quantified where the call allows. Include the cost of not acting.",
+      "nextSteps": "One clear, specific, low-friction next step. Who does what and by when."
+    }
   },
   "followUpEmail": {
     "subjectLineOptions": [
