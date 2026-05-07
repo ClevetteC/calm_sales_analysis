@@ -286,6 +286,7 @@ Using ONLY the prospect's exact words from this call, build a proposal-ready bri
 - proposalFramework: A 3-part structure for the proposal: (1) the problem in their words, (2) the gap between where they are and where they want to be, (3) the solution positioned against their stated goals.
 - offerPositioning: How to frame the offer specifically for this prospect — which features/outcomes to lead with based on what they said, and which to de-emphasize.
 - proposalCTA: The exact closing ask for the proposal — what to ask them to do next, in a way that feels like a natural continuation of the conversation rather than a pitch.
+- proposalDraft: Write the COMPLETE proposal as a short, human document the seller can send directly to the prospect. Structure it as follows — each section separated by a blank line: (1) Open with their most compelling quote as the first line, in quotation marks. (2) One short paragraph: what you heard — reflect their problem back using their exact phrasing from the call. (3) One short paragraph: what staying where they are is costing them — be specific, no vague generalities. (4) One short paragraph: what you are proposing — map the solution directly to what they said they want. (5) One short sentence or two: the next step. Keep the full draft under 350 words. Write in first person from the seller. Use [Prospect Name] as placeholder. Use their actual name if known. TONE RULES: Write like a real person, not a pitch deck. No corporate jargon. No words like: leverage, utilize, robust, seamless, empower, transform, cutting-edge, game-changing, unlock, harness, elevate. No filler openers like "I wanted to reach out" or "I hope this finds you well." No em dashes. Start sentences with short, direct words. Write the way a trusted advisor would speak — honest, warm, direct.
 
 IMPORTANT: You MUST respond with valid JSON only. No markdown, no code blocks, no extra text.
 
@@ -295,7 +296,7 @@ The following fields are MANDATORY in every response. Do NOT omit them:
 2. dealHealth - ALWAYS include with status (healthy|at-risk|critical), score (1-10), and riskFactors
 3. buyingSignals - ALWAYS include with detected signals, strength, and count
 4. overallGrade - ALWAYS include (A|B|C|D|F)
-5. proposalBuilder - ALWAYS include with painQuotes, desireQuotes, coreProblemStatement, desiredOutcome, proposalHook, proposalFramework, offerPositioning, proposalCTA
+5. proposalBuilder - ALWAYS include with painQuotes, desireQuotes, coreProblemStatement, desiredOutcome, proposalHook, proposalFramework, offerPositioning, proposalCTA, proposalDraft
 6. followUpEmail - ALWAYS include with subjectLineOptions and emailBody
 
 If you cannot determine exact values, make your best estimate based on available information.
@@ -349,7 +350,8 @@ OUTPUT FORMAT (respond with this exact JSON structure):
       "solution": "How the offer maps to their stated goals in their language"
     },
     "offerPositioning": "Lead with X, de-emphasize Y — based specifically on what they said",
-    "proposalCTA": "The exact closing ask that feels like a natural continuation of this conversation"
+    "proposalCTA": "The exact closing ask that feels like a natural continuation of this conversation",
+    "proposalDraft": "Full ready-to-send proposal document. Opens with their strongest quote. Then: what you heard (problem in their words), cost of staying, what you're proposing, next step. Under 350 words. Human tone, no jargon, no em dashes, no filler openers. Use [Prospect Name] placeholder."
   },
   "followUpEmail": {
     "subjectLineOptions": [
