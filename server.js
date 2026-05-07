@@ -286,7 +286,15 @@ Using ONLY the prospect's exact words from this call, build a proposal-ready bri
 - proposalFramework: A 3-part structure for the proposal: (1) the problem in their words, (2) the gap between where they are and where they want to be, (3) the solution positioned against their stated goals.
 - offerPositioning: How to frame the offer specifically for this prospect — which features/outcomes to lead with based on what they said, and which to de-emphasize.
 - proposalCTA: The exact closing ask for the proposal — what to ask them to do next, in a way that feels like a natural continuation of the conversation rather than a pitch.
-- proposalDraft: Write a STRUCTURED proposal document with exactly these six sections as a JSON object: (1) overview: 2-3 sentences. Open with their single most compelling quote in quotation marks, then briefly frame what this proposal is about. (2) whatWeHeard: 2-4 sentences. Reflect back their situation and pain in their own language — reference specific things they said. No paraphrasing into jargon. Make them feel heard. (3) objectives: 3-4 specific objectives in their words — what they said they want to achieve from this call. Write as clear, concrete statements, not vague aspirations. (4) proposal: What you are specifically offering. Map each element directly to one of their stated objectives. Be concrete — no generic feature lists. (5) value: The real-world outcome if they move forward. Quantify wherever the call gave you numbers. Include the cost of staying where they are. (6) nextSteps: One clear, specific, low-friction action. State exactly what happens next, by when, and who does what. TONE RULES for all six sections: Write like a trusted advisor who listened carefully and is putting a specific, relevant solution in front of them. No corporate jargon. No em dashes. No filler openers. Banned words: leverage, utilize, robust, seamless, empower, transform, cutting-edge, game-changing, unlock, harness, elevate, furthermore, moreover. Use [Prospect Name] as placeholder. Total across all sections: under 450 words.
+- proposalDraft: Write a structured proposal document using exactly these SEVEN sections as a JSON object. This follows the Minto Pyramid principle: lead with the answer first, then support it. Research shows this section order maximises close rates for post-discovery proposals.
+  (1) executiveSummary: 3-4 sentences MAXIMUM. This is what the prospect reads first and most carefully. State immediately what you are recommending and why it fits their specific situation. Open with their single strongest quote in quotation marks to anchor it in their reality. Do NOT build to a conclusion — state the conclusion first.
+  (2) theChallenge: 2-3 sentences. Demonstrate you understood their situation specifically, not generically. Mirror their exact language from the call. Reference concrete details they mentioned. This establishes that you listened and that your recommendation is not a template.
+  (3) yourGoals: Write 3-5 of their stated objectives as short, direct statements. Use their own words and phrasing wherever possible. These should read as things the prospect already said — not things you are suggesting they want.
+  (4) ourRecommendation: One clear, specific recommendation. Do NOT offer multiple options or tiers — a single opinionated recommendation closes more deals. Map the recommendation directly to their stated goals. Be concrete about what it includes. Avoid feature lists — describe what it does for them.
+  (5) whatThisDelivers: 2-3 sentences on outcomes. What their situation looks like when this is in place. Quantify using any numbers from the call. Include the cost of inaction — what happens if they do not move forward. Frame outcomes in their language, not yours.
+  (6) theInvestment: Scope and timeline only (do not invent pricing). State what the engagement covers, how long it takes, and what the process looks like. If pricing was discussed on the call, reference it. If not, use: "Investment details to follow in our next conversation." Keep it brief — 2-3 sentences.
+  (7) nextSteps: One sentence only. A single, specific, low-friction action. Name who does what and by when. Make it feel like a natural continuation of the conversation, not a closing technique.
+  TONE RULES for all seven sections: Write as a trusted advisor who listened carefully and is putting a specific solution on the table. No corporate jargon. No em dashes. No filler openers like "I wanted to reach out." Banned words: leverage, utilize, robust, seamless, empower, transform, cutting-edge, game-changing, unlock, harness, elevate, furthermore, moreover, delve. Use [Prospect Name] as placeholder. Total across all sections: under 500 words.
 
 IMPORTANT: You MUST respond with valid JSON only. No markdown, no code blocks, no extra text.
 
@@ -352,12 +360,13 @@ OUTPUT FORMAT (respond with this exact JSON structure):
     "offerPositioning": "Lead with X, de-emphasize Y — based specifically on what they said",
     "proposalCTA": "The exact closing ask that feels like a natural continuation of this conversation",
     "proposalDraft": {
-      "overview": "2-3 sentences. Opens with their strongest quote. Sets the purpose of this proposal.",
-      "whatWeHeard": "2-4 sentences reflecting their situation and pain in their own words from the call.",
-      "objectives": "3-4 specific objectives the prospect stated — what they want to achieve, in their language.",
-      "proposal": "What you are specifically offering, mapped directly to their stated objectives. Concrete, not generic.",
-      "value": "Real-world outcomes, quantified where the call allows. Include the cost of not acting.",
-      "nextSteps": "One clear, specific, low-friction next step. Who does what and by when."
+      "executiveSummary": "3-4 sentences MAX. Conclusion-first: state what you're recommending and why it fits. Opens with their strongest quote. Busy stakeholders read only this — make it count.",
+      "theChallenge": "2-3 sentences. Mirror their exact words. Reference concrete details from the call. Shows you listened.",
+      "yourGoals": "3-5 of their stated objectives as short direct statements in their own words.",
+      "ourRecommendation": "One specific, opinionated recommendation. No options or tiers. Concrete about what it includes. Outcome-focused, not feature-focused.",
+      "whatThisDelivers": "2-3 sentences on outcomes. Quantified where possible. Include cost of inaction.",
+      "theInvestment": "Scope and timeline. Reference pricing if discussed; otherwise write: Investment details to follow in our next conversation. 2-3 sentences.",
+      "nextSteps": "One sentence. One action. Who does what and by when."
     }
   },
   "followUpEmail": {

@@ -2977,11 +2977,28 @@
       color: var(--text-primary);
     }
 
+    /* Executive Summary — most important section, visually prominent */
+    .proposal-exec-block {
+      background: rgba(249, 115, 22, 0.05);
+      border-bottom: 1px solid rgba(249, 115, 22, 0.18) !important;
+    }
+
+    .proposal-exec-body {
+      font-size: 1rem !important;
+      line-height: 1.8 !important;
+      color: var(--text-primary) !important;
+    }
+
+    /* Next Steps — action-forward, orange */
+    .proposal-nextsteps-block {
+      background: rgba(249, 115, 22, 0.04);
+    }
+
     .proposal-section-body.nextsteps-body {
       font-weight: 600;
       color: var(--accent-primary);
       font-family: inherit;
-      font-size: 0.93rem;
+      font-size: 0.95rem;
     }
 
     .proposal-objectives-list {
@@ -5151,67 +5168,83 @@ Include speaker labels for best results." rows="10"></textarea>
       const framework = pb.proposalFramework || {};
       const draft = pb.proposalDraft;
 
-      // Normalise draft: could be object (new) or string (legacy)
+      // Normalise draft — supports new 7-section object, old 6-section object, legacy string, or no draft
       let sections = null;
       if (draft && typeof draft === 'object') {
-        sections = draft;
-      } else if (typeof draft === 'string' && draft.trim()) {
-        // Legacy string: treat entire text as overview, compose rest from ingredients
+        // Map either new keys or old keys into a unified shape
         sections = {
-          overview: draft,
-          whatWeHeard: pb.coreProblemStatement || '',
-          objectives: pb.desiredOutcome || '',
-          proposal: framework.solution || '',
-          value: framework.gap || '',
+          executiveSummary: draft.executiveSummary || draft.overview || '',
+          theChallenge:     draft.theChallenge    || draft.whatWeHeard || pb.coreProblemStatement || '',
+          yourGoals:        draft.yourGoals       || draft.objectives || pb.desiredOutcome || '',
+          ourRecommendation: draft.ourRecommendation || draft.proposal || framework.solution || '',
+          whatThisDelivers: draft.whatThisDelivers || draft.value || framework.gap || '',
+          theInvestment:    draft.theInvestment   || '',
+          nextSteps:        draft.nextSteps       || pb.proposalCTA || ''
+        };
+      } else if (typeof draft === 'string' && draft.trim()) {
+        sections = {
+          executiveSummary: draft,
+          theChallenge: pb.coreProblemStatement || '',
+          yourGoals: pb.desiredOutcome || '',
+          ourRecommendation: framework.solution || '',
+          whatThisDelivers: framework.gap || '',
+          theInvestment: '',
           nextSteps: pb.proposalCTA || ''
         };
       } else {
-        // No draft at all — compose entirely from ingredients
         sections = {
-          overview: pb.proposalHook ? `"${pb.proposalHook}"` : '',
-          whatWeHeard: pb.coreProblemStatement || '',
-          objectives: pb.desiredOutcome || '',
-          proposal: framework.solution || '',
-          value: framework.gap || '',
+          executiveSummary: pb.proposalHook ? `"${pb.proposalHook}" — ${pb.coreProblemStatement || ''}` : '',
+          theChallenge: pb.coreProblemStatement || '',
+          yourGoals: pb.desiredOutcome || '',
+          ourRecommendation: framework.solution || '',
+          whatThisDelivers: framework.gap || '',
+          theInvestment: '',
           nextSteps: pb.proposalCTA || ''
         };
       }
 
-      // Build plain-text version for copy/download
+      // Helper to render goals as an arrow list when multi-line
+      function goalsHtml(text) {
+        const lines = (text || '').split(/\n/).map(l => l.trim()).filter(Boolean);
+        if (lines.length > 1) {
+          return `<ul class="proposal-objectives-list">${lines.map(l =>
+            `<li>${escapeHtml(l.replace(/^(\d+[\.\)]\s*|[-\*•]\s*)/, ''))}</li>`
+          ).join('')}</ul>`;
+        }
+        return `<div class="proposal-section-body">${escapeHtml(text || '')}</div>`;
+      }
+
+      // Plain-text version for copy / download
       const plainText = [
         'PROPOSAL',
         '─────────────────────────────────────',
+        'Prepared for [Prospect Name]',
         '',
-        'OVERVIEW',
-        sections.overview || '',
+        'EXECUTIVE SUMMARY',
+        sections.executiveSummary,
         '',
-        'WHAT WE HEARD',
-        sections.whatWeHeard || '',
+        'THE CHALLENGE',
+        sections.theChallenge,
         '',
-        'YOUR OBJECTIVES',
-        sections.objectives || '',
+        'YOUR GOALS',
+        sections.yourGoals,
         '',
-        'WHAT WE\'RE PROPOSING',
-        sections.proposal || '',
+        'OUR RECOMMENDATION',
+        sections.ourRecommendation,
         '',
-        'THE VALUE',
-        sections.value || '',
+        'WHAT THIS DELIVERS',
+        sections.whatThisDelivers,
+        sections.theInvestment ? '\nTHE INVESTMENT\n' + sections.theInvestment : '',
         '',
         'NEXT STEPS',
-        sections.nextSteps || '',
+        sections.nextSteps,
         '',
         '─────────────────────────────────────',
         '[Your Name]',
         '[Your Title] | [Your Contact]'
-      ].join('\n');
+      ].filter(l => l !== undefined).join('\n');
 
       window._currentProposalText = plainText;
-
-      // Parse objectives into list items if they contain numbered/bulleted lines
-      const objectivesLines = (sections.objectives || '').split(/\n/).map(l => l.trim()).filter(Boolean);
-      const objectivesHtml = objectivesLines.length > 1
-        ? `<ul class="proposal-objectives-list">${objectivesLines.map(l => `<li>${escapeHtml(l.replace(/^(\d+[\.\)]\s*|[-\*•]\s*)/, ''))}</li>`).join('')}</ul>`
-        : `<div class="proposal-section-body">${escapeHtml(sections.objectives || '')}</div>`;
 
       const sourceId = 'proposal-source-' + Date.now();
 
@@ -5239,43 +5272,50 @@ Include speaker labels for best results." rows="10"></textarea>
                   <div class="proposal-doc-label">Confidential</div>
                 </div>
 
-                ${sections.overview ? `
-                  <div class="proposal-section-block">
-                    <div class="proposal-section-label">Overview</div>
-                    <div class="proposal-section-body overview-body">${escapeHtml(sections.overview)}</div>
+                ${sections.executiveSummary ? `
+                  <div class="proposal-section-block proposal-exec-block">
+                    <div class="proposal-section-label">Executive Summary</div>
+                    <div class="proposal-section-body proposal-exec-body">${escapeHtml(sections.executiveSummary)}</div>
                   </div>
                 ` : ''}
 
-                ${sections.whatWeHeard ? `
+                ${sections.theChallenge ? `
                   <div class="proposal-section-block">
-                    <div class="proposal-section-label">What We Heard</div>
-                    <div class="proposal-section-body">${escapeHtml(sections.whatWeHeard)}</div>
+                    <div class="proposal-section-label">The Challenge</div>
+                    <div class="proposal-section-body">${escapeHtml(sections.theChallenge)}</div>
                   </div>
                 ` : ''}
 
-                ${sections.objectives ? `
+                ${sections.yourGoals ? `
                   <div class="proposal-section-block">
-                    <div class="proposal-section-label">Your Objectives</div>
-                    ${objectivesHtml}
+                    <div class="proposal-section-label">Your Goals</div>
+                    ${goalsHtml(sections.yourGoals)}
                   </div>
                 ` : ''}
 
-                ${sections.proposal ? `
+                ${sections.ourRecommendation ? `
                   <div class="proposal-section-block">
-                    <div class="proposal-section-label">What We're Proposing</div>
-                    <div class="proposal-section-body">${escapeHtml(sections.proposal)}</div>
+                    <div class="proposal-section-label">Our Recommendation</div>
+                    <div class="proposal-section-body">${escapeHtml(sections.ourRecommendation)}</div>
                   </div>
                 ` : ''}
 
-                ${sections.value ? `
+                ${sections.whatThisDelivers ? `
                   <div class="proposal-section-block">
-                    <div class="proposal-section-label">The Value</div>
-                    <div class="proposal-section-body">${escapeHtml(sections.value)}</div>
+                    <div class="proposal-section-label">What This Delivers</div>
+                    <div class="proposal-section-body">${escapeHtml(sections.whatThisDelivers)}</div>
+                  </div>
+                ` : ''}
+
+                ${sections.theInvestment ? `
+                  <div class="proposal-section-block">
+                    <div class="proposal-section-label">The Investment</div>
+                    <div class="proposal-section-body">${escapeHtml(sections.theInvestment)}</div>
                   </div>
                 ` : ''}
 
                 ${sections.nextSteps ? `
-                  <div class="proposal-section-block">
+                  <div class="proposal-section-block proposal-nextsteps-block">
                     <div class="proposal-section-label">Next Steps</div>
                     <div class="proposal-section-body nextsteps-body">${escapeHtml(sections.nextSteps)}</div>
                   </div>
