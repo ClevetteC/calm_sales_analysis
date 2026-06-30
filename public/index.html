@@ -5168,12 +5168,6 @@ Include speaker labels for best results." rows="10"></textarea>
       const framework = pb.proposalFramework || {};
       const draft = pb.proposalDraft;
 
-      // Gemini sometimes returns a section as an array of statements instead of a string
-      function toText(val) {
-        if (Array.isArray(val)) return val.map(v => String(v).trim()).filter(Boolean).join('\n');
-        return val || '';
-      }
-
       // Normalise draft — supports new 7-section object, old 6-section object, legacy string, or no draft
       let sections = null;
       if (draft && typeof draft === 'object') {
@@ -6263,6 +6257,33 @@ Include speaker labels for best results." rows="10"></textarea>
     }
 
     function generateWordDoc(a) {
+      const esc = (v) => escapeHtml(toText(v));
+      const list = (arr, render) => Array.isArray(arr) && arr.length > 0 ? `<ul>${arr.map(render).join('')}</ul>` : '';
+      const olist = (arr, render) => Array.isArray(arr) && arr.length > 0 ? `<ol>${arr.map(render).join('')}</ol>` : '';
+
+      const prob = a.closingProbability?.percentage ?? a.closingProbability ?? null;
+      const dh = a.dealHealth?.status || a.dealHealth || '';
+      const stage = a.buyerJourneyStage?.detected || a.buyerJourneyStage?.stage || a.buyerJourneyStage || '';
+      const talk = a.talkRatio || {};
+      const sc = a.calmScorecard || {};
+      const dpa = a.decisionPointsAnalysis || {};
+      const bs = a.buyingSignals || {};
+      const es = a.energySignals || {};
+      const ni = a.numberOneIssue;
+      const na = a.nextAction;
+      const spin = a.spinAnalysis || {};
+      const gap = a.gapSellingAnalysis || {};
+      const dd = a.discoveryDepth;
+      const oh = a.objectionHandling;
+      const cbo = a.cognitivebiasOpportunities || {};
+      const fcb = a.followUpCallBlueprint;
+      const prof = a.prospectCommunicationProfile || a.prospectProfile || {};
+      const qq = a.questionQuality;
+      const fe = a.followUpEmail;
+      const pb = a.proposalBuilder;
+      const draft = pb?.proposalDraft;
+      const winBack = a.winBackProbability;
+
       return `
         <!DOCTYPE html>
         <html>
@@ -6270,52 +6291,213 @@ Include speaker labels for best results." rows="10"></textarea>
         <style>
           body { font-family: Calibri, sans-serif; padding: 40px; }
           h1 { color: #f97316; }
-          h2 { color: #333; border-bottom: 1px solid #ddd; padding-bottom: 8px; }
+          h2 { color: #333; border-bottom: 1px solid #ddd; padding-bottom: 8px; margin-top: 28px; }
+          h3 { color: #444; margin-top: 16px; }
           .grade { font-size: 48px; font-weight: bold; color: #f97316; }
           .script { background: #f5f5f5; padding: 12px; border-left: 4px solid #f97316; margin: 12px 0; }
+          .meta-row { display: flex; flex-wrap: wrap; gap: 24px; margin: 12px 0 24px; }
+          .meta-item { font-size: 14px; }
+          .meta-item strong { display: block; font-size: 12px; color: #777; text-transform: uppercase; letter-spacing: 0.04em; }
+          table { border-collapse: collapse; width: 100%; margin: 12px 0; }
+          td, th { border: 1px solid #ddd; padding: 8px; text-align: left; vertical-align: top; font-size: 13px; }
+          th { background: #f5f5f5; }
         </style>
         </head>
         <body>
         <h1>Sales Call Analysis</h1>
-        <p class="grade">${a.overallGrade || '-'}</p>
-        <p>${a.gradeRationale || ''}</p>
-        
-        ${a.nextStepsToWinBack ? `
-          <h2>Top Actions</h2>
-          <ol>
-          ${a.nextStepsToWinBack.slice(0, 3).map(s => `
-            <li><strong>${s.step}</strong>
-            ${s.script ? `<div class="script">"${s.script}"</div>` : ''}
-            </li>
-          `).join('')}
-          </ol>
+        <p class="grade">${esc(a.overallGrade) || '-'}</p>
+        <p>${esc(a.gradeRationale)}</p>
+
+        ${a.executiveSummary ? `<h2>Executive Summary</h2><p>${esc(a.executiveSummary)}</p>` : ''}
+
+        <h2>Key Metrics</h2>
+        <div class="meta-row">
+          ${prob !== null ? `<div class="meta-item"><strong>Closing Probability</strong>${esc(prob)}%</div>` : ''}
+          ${dh ? `<div class="meta-item"><strong>Deal Health</strong>${esc(dh)}${a.dealHealth?.score ? ` (${esc(a.dealHealth.score)}/10)` : ''}</div>` : ''}
+          ${stage ? `<div class="meta-item"><strong>Buyer Stage</strong>${esc(stage)}</div>` : ''}
+          ${talk.seller ? `<div class="meta-item"><strong>Talk Ratio</strong>Seller ${esc(talk.seller)} / Buyer ${esc(talk.buyer)} (${esc(talk.assessment)})</div>` : ''}
+          ${bs.strength ? `<div class="meta-item"><strong>Buying Signals</strong>${esc(bs.strength)}${bs.strongSignalCount ? ` (${esc(bs.strongSignalCount)} strong)` : ''}</div>` : ''}
+          ${winBack?.percentage != null ? `<div class="meta-item"><strong>Win-Back Probability</strong>${esc(winBack.percentage)}%</div>` : ''}
+        </div>
+        ${a.closingProbability?.rationale ? `<p>${esc(a.closingProbability.rationale)}</p>` : ''}
+        ${a.closingProbability?.primaryDrivers?.length > 0 ? `<p><strong>Drivers:</strong> ${a.closingProbability.primaryDrivers.map(esc).join(', ')}</p>` : ''}
+        ${a.closingProbability?.primaryBlockers?.length > 0 ? `<p><strong>Blockers:</strong> ${a.closingProbability.primaryBlockers.map(esc).join(', ')}</p>` : ''}
+        ${bs.detected?.length > 0 ? `<p><strong>Buying signals detected:</strong> ${bs.detected.map(esc).join(', ')}</p>` : ''}
+        ${a.dealHealth?.riskFactors?.length > 0 ? `
+          <h3>Deal Risk Factors</h3>
+          <table><tr><th>Risk</th><th>Severity</th><th>Mitigation</th></tr>
+          ${a.dealHealth.riskFactors.map(r => `<tr><td>${esc(r.risk)}</td><td>${esc(r.severity)}</td><td>${esc(r.mitigation)}</td></tr>`).join('')}
+          </table>
         ` : ''}
-        
-        ${a.proposalBuilder ? `
-          <h2>Proposal Builder</h2>
-          ${a.proposalBuilder.proposalHook ? `<p style="font-size:1.1em;font-style:italic;border-left:4px solid #f97316;padding-left:12px;margin-bottom:16px;">"${a.proposalBuilder.proposalHook}"</p>` : ''}
-          ${a.proposalBuilder.painQuotes?.length > 0 ? `
-            <h3>Their Pain (verbatim)</h3>
-            <ul>${a.proposalBuilder.painQuotes.map(q => `<li>"${q}"</li>`).join('')}</ul>
-          ` : ''}
-          ${a.proposalBuilder.desireQuotes?.length > 0 ? `
-            <h3>Their Goal (verbatim)</h3>
-            <ul>${a.proposalBuilder.desireQuotes.map(q => `<li>"${q}"</li>`).join('')}</ul>
-          ` : ''}
-          ${a.proposalBuilder.coreProblemStatement ? `<p><strong>Core Problem:</strong> ${a.proposalBuilder.coreProblemStatement}</p>` : ''}
-          ${a.proposalBuilder.desiredOutcome ? `<p><strong>Desired Outcome:</strong> ${a.proposalBuilder.desiredOutcome}</p>` : ''}
-          ${a.proposalBuilder.proposalFramework?.problem ? `<p><strong>Proposal — Problem:</strong> ${a.proposalBuilder.proposalFramework.problem}</p>` : ''}
-          ${a.proposalBuilder.proposalFramework?.gap ? `<p><strong>Proposal — Gap:</strong> ${a.proposalBuilder.proposalFramework.gap}</p>` : ''}
-          ${a.proposalBuilder.proposalFramework?.solution ? `<p><strong>Proposal — Solution:</strong> ${a.proposalBuilder.proposalFramework.solution}</p>` : ''}
-          ${a.proposalBuilder.offerPositioning ? `<p><strong>Offer Positioning:</strong> ${a.proposalBuilder.offerPositioning}</p>` : ''}
-          ${a.proposalBuilder.proposalCTA ? `<div class="script"><strong>Closing Ask:</strong> ${a.proposalBuilder.proposalCTA}</div>` : ''}
+        ${a.dealHealth?.strengthFactors?.length > 0 ? `<p><strong>Strengths:</strong> ${a.dealHealth.strengthFactors.map(esc).join(', ')}</p>` : ''}
+
+        ${Object.keys(sc).length > 0 ? `
+          <h2>CALM Scorecard</h2>
+          <table><tr><th>Phase</th><th>Score</th><th>Evidence</th></tr>
+          ${CALM_KEYS.map(({ letter, key, label }) => sc[key] ? `<tr><td>${letter} — ${label}</td><td>${esc(sc[key].score)}/10</td><td>${esc(sc[key].evidence)}</td></tr>` : '').join('')}
+          </table>
         ` : ''}
 
-        ${a.guidedQuestionsForNextCall ? `
+        ${(dpa.failedPoints || dpa.passedPoints || dpa.unclearPoints) ? `
+          <h2>Decision Points Analysis</h2>
+          ${dpa.passedPoints?.length > 0 ? `<p><strong>Passed:</strong> ${dpa.passedPoints.map(i => DP_LABELS[i-1] || `Point ${i}`).join(', ')}</p>` : ''}
+          ${dpa.failedPoints?.length > 0 ? `<p><strong>Failed:</strong> ${dpa.failedPoints.map(i => DP_LABELS[i-1] || `Point ${i}`).join(', ')}</p>` : ''}
+          ${dpa.unclearPoints?.length > 0 ? `<p><strong>Unclear:</strong> ${dpa.unclearPoints.map(i => DP_LABELS[i-1] || `Point ${i}`).join(', ')}</p>` : ''}
+          ${dpa.primaryFailure ? `<p><strong>Primary Failure:</strong> ${esc(dpa.primaryFailure)}</p>` : ''}
+          ${dpa.diagnosis ? `<p><strong>Diagnosis:</strong> ${esc(dpa.diagnosis)}</p>` : ''}
+        ` : ''}
+
+        ${es.observed ? `
+          <h2>Energy Signals</h2>
+          ${es.observed?.length > 0 ? `<p><strong>Observed:</strong> ${es.observed.map(esc).join(', ')}</p>` : ''}
+          ${es.prospectMode ? `<p><strong>Prospect Mode:</strong> ${esc(es.prospectMode)}</p>` : ''}
+          ${es.enrollmentSignals ? `<p><strong>Enrollment Signals:</strong> ${esc(es.enrollmentSignals)}</p>` : ''}
+          ${es.commitmentLevel ? `<p><strong>Commitment Level:</strong> ${esc(es.commitmentLevel)}</p>` : ''}
+        ` : ''}
+
+        ${ni ? `
+          <h2>#1 Issue</h2>
+          <p>${esc(ni.issue)}</p>
+          ${ni.whyItMatters ? `<p><strong>Why it matters:</strong> ${esc(ni.whyItMatters)}</p>` : ''}
+          ${ni.scriptToFix ? `<div class="script">"${esc(ni.scriptToFix)}"</div>` : ''}
+        ` : ''}
+
+        ${na ? `
+          <h2>Next Action</h2>
+          <p>${esc(na.action)}${na.timing ? ` — ${esc(na.timing)}` : ''}</p>
+          ${na.script ? `<div class="script">"${esc(na.script)}"</div>` : ''}
+        ` : ''}
+
+        ${a.criticalMistakes?.length > 0 ? `
+          <h2>Critical Mistakes</h2>
+          ${list(a.criticalMistakes, m => `<li><strong>${esc(m.mistake)}</strong>${m.timestamp ? ` (${esc(m.timestamp)})` : ''}${m.impact ? `<br>${esc(m.impact)}` : ''}</li>`)}
+        ` : ''}
+
+        ${a.missedOpportunities?.length > 0 ? `
+          <h2>Missed Opportunities</h2>
+          ${list(a.missedOpportunities, m => `<li><strong>${esc(m.opportunity)}</strong>${m.timestamp ? ` (${esc(m.timestamp)})` : ''}${m.suggestedApproach ? `<br>${esc(m.suggestedApproach)}` : ''}</li>`)}
+        ` : ''}
+
+        ${a.strongMoments?.length > 0 ? `
+          <h2>Strong Moments</h2>
+          ${list(a.strongMoments, m => `<li>${esc(m.moment || m)}${m.whyEffective ? `<br>${esc(m.whyEffective)}` : ''}</li>`)}
+        ` : ''}
+
+        ${(spin.overallSpinScore || spin.situationQuestions) ? `
+          <h2>SPIN Analysis</h2>
+          ${spin.overallSpinScore ? `<p><strong>Overall SPIN Score:</strong> ${esc(spin.overallSpinScore)}/10</p>` : ''}
+          ${['situationQuestions','problemQuestions','implicationQuestions','needPayoffQuestions'].map(k => spin[k] ? `<p><strong>${k.replace('Questions','')}:</strong> ${esc(spin[k].count)} asked, ${esc(spin[k].quality)} quality</p>` : '').join('')}
+        ` : ''}
+
+        ${(gap.overallGapScore != null) ? `
+          <h2>Gap Selling Analysis</h2>
+          <p><strong>Score:</strong> ${esc(gap.overallGapScore)}/10</p>
+          <p>Current state identified: ${gap.currentStateIdentified ? 'Yes' : 'No'} · Future state established: ${gap.futureStateEstablished ? 'Yes' : 'No'} · Gap quantified: ${gap.gapQuantified ? 'Yes' : 'No'} · Solution tied to gap: ${gap.solutionTiedToGap ? 'Yes' : 'No'}</p>
+          ${gap.evidence ? `<p>${esc(gap.evidence)}</p>` : ''}
+        ` : ''}
+
+        ${dd ? `<h2>Discovery Depth</h2><p><strong>${esc(dd.level)}</strong> (${esc(dd.score)}/10) — ${esc(dd.evidence)}</p>` : ''}
+
+        ${oh ? `
+          <h2>Objection Handling</h2>
+          <p><strong>Quality:</strong> ${esc(oh.handlingQuality)} (${esc(oh.score)}/10) · Preemptive: ${oh.preemptiveHandling ? 'Yes' : 'No'}</p>
+          ${oh.objectionsRaised?.length > 0 ? `<p><strong>Raised:</strong> ${oh.objectionsRaised.map(esc).join(', ')}</p>` : ''}
+          ${oh.evidence ? `<p>${esc(oh.evidence)}</p>` : ''}
+        ` : ''}
+
+        ${a.actionPlan?.length > 0 ? `
+          <h2>Action Plan</h2>
+          ${list(a.actionPlan, s => `<li><strong>${esc(s.skill)}</strong> (${esc(s.priority)} priority) — ${esc(s.exercise)}</li>`)}
+        ` : ''}
+
+        ${a.nextStepsToWinBack?.length > 0 ? `
+          <h2>Next Steps to Win Back</h2>
+          ${olist(a.nextStepsToWinBack, s => `<li><strong>${esc(s.step)}</strong>${s.timing ? ` — ${esc(s.timing)}` : ''}${s.rationale ? `<br>${esc(s.rationale)}` : ''}${s.script ? `<div class="script">"${esc(s.script)}"</div>` : ''}</li>`)}
+        ` : ''}
+
+        ${a.guidedQuestionsForNextCall?.length > 0 ? `
           <h2>Questions for Next Call</h2>
-          <ol>
-          ${a.guidedQuestionsForNextCall.map(q => `<li>"${q.question}"</li>`).join('')}
-          </ol>
+          ${olist(a.guidedQuestionsForNextCall, q => `<li>"${esc(q.question)}"${q.purpose ? `<br><em>${esc(q.purpose)}</em>` : ''}</li>`)}
+        ` : ''}
+
+        ${(cbo.lossAversion || cbo.socialProof || cbo.sunkCost) ? `
+          <h2>Cognitive Bias Opportunities</h2>
+          ${cbo.lossAversion ? `<p><strong>Loss Aversion:</strong> ${esc(cbo.lossAversion)}</p>` : ''}
+          ${cbo.socialProof ? `<p><strong>Social Proof:</strong> ${esc(cbo.socialProof)}</p>` : ''}
+          ${cbo.sunkCost ? `<p><strong>Sunk Cost:</strong> ${esc(cbo.sunkCost)}</p>` : ''}
+        ` : ''}
+
+        ${a.unexploredAngles?.length > 0 ? `
+          <h2>Unexplored Angles</h2>
+          ${list(a.unexploredAngles, u => `<li><strong>${esc(u.angle)}</strong>${u.triggerQuote ? `<br>"${esc(u.triggerQuote)}"` : ''}${u.exploreQuestion ? `<br>Ask: "${esc(u.exploreQuestion)}"` : ''}</li>`)}
+        ` : ''}
+
+        ${fcb ? `
+          <h2>Follow-Up Call Blueprint</h2>
+          <p><strong>Timing:</strong> ${esc(fcb.recommendedTiming)} · <strong>Channel:</strong> ${esc(fcb.recommendedChannel)}</p>
+          ${fcb.openingHook ? `<div class="script">"${esc(fcb.openingHook)}"</div>` : ''}
+          ${fcb.callObjective ? `<p><strong>Objective:</strong> ${esc(fcb.callObjective)}</p>` : ''}
+          ${fcb.conversationFlow?.length > 0 ? `
+            <table><tr><th>Phase</th><th>Duration</th><th>Script</th></tr>
+            ${fcb.conversationFlow.map(p => `<tr><td>${esc(p.phase)}</td><td>${esc(p.duration)}</td><td>${esc(p.script)}</td></tr>`).join('')}
+            </table>
+          ` : ''}
+          ${fcb.topicsToAvoid?.length > 0 ? `<p><strong>Avoid:</strong> ${fcb.topicsToAvoid.map(t => esc(t.topic)).join(', ')}</p>` : ''}
+          ${fcb.successMetric ? `<p><strong>Success Metric:</strong> ${esc(fcb.successMetric)}</p>` : ''}
+        ` : ''}
+
+        ${(prof.communicationStyle || prof.keyPainWords) ? `
+          <h2>Prospect Profile</h2>
+          <p><strong>Style:</strong> ${esc(prof.communicationStyle)} · <strong>Pace:</strong> ${esc(prof.pacePreference)} · <strong>Driver:</strong> ${esc(prof.motivationDriver)}</p>
+          ${prof.keyPainWords?.length > 0 ? `<p><strong>Pain words:</strong> ${prof.keyPainWords.map(esc).join(', ')}</p>` : ''}
+          ${prof.keyDesireWords?.length > 0 ? `<p><strong>Desire words:</strong> ${prof.keyDesireWords.map(esc).join(', ')}</p>` : ''}
+          ${prof.adaptationTips?.length > 0 ? list(prof.adaptationTips, t => `<li>${esc(t)}</li>`) : ''}
+        ` : ''}
+
+        ${qq ? `
+          <h2>Question Quality</h2>
+          ${qq.averageScore != null ? `<p><strong>Average Score:</strong> ${esc(qq.averageScore)}/10</p>` : ''}
+          ${qq.missingQuestions?.length > 0 ? `
+            <h3>Missing High-Value Questions</h3>
+            ${list(qq.missingQuestions, q => `<li>"${esc(q.question)}"${q.insightItWouldUnlock ? `<br>${esc(q.insightItWouldUnlock)}` : ''}</li>`)}
+          ` : ''}
+        ` : ''}
+
+        ${(a.predictiveObjections || a.predictedObjections)?.length > 0 ? `
+          <h2>Predicted Objections</h2>
+          ${list(a.predictiveObjections || a.predictedObjections, o => `<li><strong>"${esc(o.objection)}"</strong> (${esc(o.probability)})${o.rootCause ? `<br>Root cause: ${esc(o.rootCause)}` : ''}${o.preEmptiveMove ? `<br>Pre-empt: ${esc(o.preEmptiveMove)}` : ''}${o.responseScript ? `<div class="script">"${esc(o.responseScript)}"</div>` : ''}</li>`)}
+        ` : ''}
+
+        ${fe ? `
+          <h2>Follow-Up Email Draft</h2>
+          ${fe.subjectLineOptions?.length > 0 ? list(fe.subjectLineOptions, s => `<li>${esc(s.subject)} <em>(${esc(s.angle)})</em></li>`) : ''}
+          ${fe.emailBody ? `<div class="script">${esc(fe.emailBody).replace(/\n/g, '<br>')}</div>` : ''}
+          ${fe.sendTiming ? `<p><strong>Send timing:</strong> ${esc(fe.sendTiming)}</p>` : ''}
+          ${fe.noReplyFollowUp ? `<p><strong>If no reply:</strong> ${esc(fe.noReplyFollowUp)}</p>` : ''}
+        ` : ''}
+
+        ${pb ? `
+          <h2>Proposal Builder</h2>
+          ${pb.proposalHook ? `<p style="font-size:1.1em;font-style:italic;border-left:4px solid #f97316;padding-left:12px;margin-bottom:16px;">"${esc(pb.proposalHook)}"</p>` : ''}
+          ${pb.painQuotes?.length > 0 ? `<h3>Their Pain (verbatim)</h3>${list(pb.painQuotes, q => `<li>"${esc(q)}"</li>`)}` : ''}
+          ${pb.desireQuotes?.length > 0 ? `<h3>Their Goal (verbatim)</h3>${list(pb.desireQuotes, q => `<li>"${esc(q)}"</li>`)}` : ''}
+          ${pb.coreProblemStatement ? `<p><strong>Core Problem:</strong> ${esc(pb.coreProblemStatement)}</p>` : ''}
+          ${pb.desiredOutcome ? `<p><strong>Desired Outcome:</strong> ${esc(pb.desiredOutcome)}</p>` : ''}
+          ${pb.proposalFramework?.problem ? `<p><strong>Proposal — Problem:</strong> ${esc(pb.proposalFramework.problem)}</p>` : ''}
+          ${pb.proposalFramework?.gap ? `<p><strong>Proposal — Gap:</strong> ${esc(pb.proposalFramework.gap)}</p>` : ''}
+          ${pb.proposalFramework?.solution ? `<p><strong>Proposal — Solution:</strong> ${esc(pb.proposalFramework.solution)}</p>` : ''}
+          ${pb.offerPositioning ? `<p><strong>Offer Positioning:</strong> ${esc(pb.offerPositioning)}</p>` : ''}
+          ${pb.proposalCTA ? `<div class="script"><strong>Closing Ask:</strong> ${esc(pb.proposalCTA)}</div>` : ''}
+          ${draft && typeof draft === 'object' ? `
+            <h3>Proposal Draft</h3>
+            ${draft.executiveSummary ? `<p><strong>Executive Summary:</strong> ${esc(draft.executiveSummary)}</p>` : ''}
+            ${draft.theChallenge ? `<p><strong>The Challenge:</strong> ${esc(draft.theChallenge)}</p>` : ''}
+            ${draft.yourGoals ? `<p><strong>Your Goals:</strong> ${esc(draft.yourGoals).replace(/\n/g, '<br>')}</p>` : ''}
+            ${draft.ourRecommendation ? `<p><strong>Our Recommendation:</strong> ${esc(draft.ourRecommendation)}</p>` : ''}
+            ${draft.whatThisDelivers ? `<p><strong>What This Delivers:</strong> ${esc(draft.whatThisDelivers)}</p>` : ''}
+            ${draft.theInvestment ? `<p><strong>The Investment:</strong> ${esc(draft.theInvestment)}</p>` : ''}
+            ${draft.nextSteps ? `<p><strong>Next Steps:</strong> ${esc(draft.nextSteps)}</p>` : ''}
+          ` : (typeof draft === 'string' && draft.trim() ? `<h3>Proposal Draft</h3><p>${esc(draft).replace(/\n/g, '<br>')}</p>` : '')}
         ` : ''}
 
         </body></html>
@@ -6328,6 +6510,12 @@ Include speaker labels for best results." rows="10"></textarea>
       const div = document.createElement('div');
       div.textContent = text;
       return div.innerHTML;
+    }
+
+    // Gemini sometimes returns a field as an array of statements instead of a single string
+    function toText(val) {
+      if (Array.isArray(val)) return val.map(v => String(v).trim()).filter(Boolean).join('\n');
+      return val || '';
     }
 
     function copyToClipboard(text) {
