@@ -5168,18 +5168,24 @@ Include speaker labels for best results." rows="10"></textarea>
       const framework = pb.proposalFramework || {};
       const draft = pb.proposalDraft;
 
+      // Gemini sometimes returns a section as an array of statements instead of a string
+      function toText(val) {
+        if (Array.isArray(val)) return val.map(v => String(v).trim()).filter(Boolean).join('\n');
+        return val || '';
+      }
+
       // Normalise draft — supports new 7-section object, old 6-section object, legacy string, or no draft
       let sections = null;
       if (draft && typeof draft === 'object') {
         // Map either new keys or old keys into a unified shape
         sections = {
-          executiveSummary: draft.executiveSummary || draft.overview || '',
-          theChallenge:     draft.theChallenge    || draft.whatWeHeard || pb.coreProblemStatement || '',
-          yourGoals:        draft.yourGoals       || draft.objectives || pb.desiredOutcome || '',
-          ourRecommendation: draft.ourRecommendation || draft.proposal || framework.solution || '',
-          whatThisDelivers: draft.whatThisDelivers || draft.value || framework.gap || '',
-          theInvestment:    draft.theInvestment   || '',
-          nextSteps:        draft.nextSteps       || pb.proposalCTA || ''
+          executiveSummary: toText(draft.executiveSummary || draft.overview || ''),
+          theChallenge:     toText(draft.theChallenge    || draft.whatWeHeard || pb.coreProblemStatement || ''),
+          yourGoals:        toText(draft.yourGoals       || draft.objectives || pb.desiredOutcome || ''),
+          ourRecommendation: toText(draft.ourRecommendation || draft.proposal || framework.solution || ''),
+          whatThisDelivers: toText(draft.whatThisDelivers || draft.value || framework.gap || ''),
+          theInvestment:    toText(draft.theInvestment   || ''),
+          nextSteps:        toText(draft.nextSteps       || pb.proposalCTA || '')
         };
       } else if (typeof draft === 'string' && draft.trim()) {
         sections = {
