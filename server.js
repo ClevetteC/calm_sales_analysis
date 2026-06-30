@@ -793,7 +793,7 @@ app.post('/api/analyze-file', upload.single('video'), async (req, res) => {
     while (retries > 0) {
       try {
         response = await ai.models.generateContent({
-          model: 'gemini-2.0-flash',
+          model: 'gemini-3.5-flash',
           contents: contents,
           config: {
             httpOptions: {
@@ -902,7 +902,7 @@ app.post('/api/analyze-youtube', async (req, res) => {
     ];
 
     const response = await ai.models.generateContent({
-      model: 'gemini-2.0-flash',
+      model: 'gemini-3.5-flash',
       contents: contents
     });
 
@@ -1027,7 +1027,7 @@ app.post('/api/analyze-sales-call/file', salesUpload, async (req, res) => {
     while (retries > 0) {
       try {
         response = await ai.models.generateContent({
-          model: 'gemini-2.0-flash',
+          model: 'gemini-3.5-flash',
           contents: contents,
           config: {
             httpOptions: {
@@ -1163,7 +1163,7 @@ app.post('/api/analyze-sales-call/youtube', async (req, res) => {
     console.log('[Sales] Analyzing YouTube sales call...');
 
     const response = await ai.models.generateContent({
-      model: 'gemini-2.0-flash',
+      model: 'gemini-3.5-flash',
       contents: contents
     });
 
@@ -1273,7 +1273,7 @@ ${transcriptContent}
       try {
         console.log('[Sales Transcript] Calling Gemini API...');
         response = await ai.models.generateContent({
-          model: 'gemini-2.0-flash',
+          model: 'gemini-3.5-flash',
           contents: [{ text: transcriptPrompt }],
           config: {
             httpOptions: {
@@ -1421,7 +1421,7 @@ app.post('/api/analyze-sales-call/uri', async (req, res) => {
     while (retries > 0) {
       try {
         response = await ai.models.generateContent({
-          model: 'gemini-2.0-flash',
+          model: 'gemini-3.5-flash',
           contents,
           config: { httpOptions: { timeout: 600000 } }
         });
